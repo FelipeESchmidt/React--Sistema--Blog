@@ -1,73 +1,14 @@
 # Avaliação
 
-Esse é o template inicial para o projeto final que compreende o módulo 2 do programa de bolsas em ReactJS. O objetivo desse template é poupar tempo com um exemplo estático de HTML e CSS, porém sem nenhuma funcionalidade que é necessária para finalizar o projeto. Seu trabalho aqui é adicionar interatividade ao projeto refatorando o código estático disponível nesse template.
+Esse é o template inicial para o projeto final que compreende o módulo 3 do programa de bolsas em ReactJS. O objetivo desse template é servir de repositório para o código do backend da aplicação que pode ser alterado para adicionar/alterar funcionalidades. Seu trabalho aqui é criar uma aplicação de um blog em React, consumindo a API de backend.
 
-O objetivo é ter um aplicativo que mostre quais livros eu já li, estou lendo ou quero ler em estantes, preenchidas pelos dados consumidos da API e usando React para montar a tela dinamicamente conforme os dados são modificados.
-
-## Começar
-
-Você pode começar executando `yarn/npm install` no terminal e depois `yarn/npm start` para começar o servidor de desenvolvimento, isso vai abrir seu browser automaticamente com hot reload habilitado.
+O objetivo é ter um aplicativo de blog que mostre posts sobre diversas categorias. Cada post pertence à uma categoria e pode possuir comentários. O post e os comentários também podem receber votações. A aplicação deve mostrar esses posts de uma maneira organizada e permitir filtrar por categorias e ordenar por votação ou data de criação.
 
 ## Exemplo da Aplicação Final
 
- - https://compasso-reads.netlify.app
+ - Client: https://compasso-blog.herokuapp.com/
+ - Server: https://compasso-blog-api.herokuapp.com/
 
 ## Servidor Backend
 
-Para simplificar o processo de desenvolvimento, um backend já foi criado para esse app. O arquivo [`api.js`](./src/api.js) contém os métodos necessários para fazer as operações necessárias no backend:
-
-* [`getBook`](#getBook)
-* [`getMyBooks`](#getMyBooks)
-* [`searchBooks`](#searchBooks)
-* [`updateBook`](#updateBook)
-
-### `getBook`
-
-> Pesquisa e retorna os dados de um dos meus livros.
-
-```jsx
-getBook(BOOK_ID).then(function(data) {
-  const book = data.book
-
-  // ...
-})
-```
-
-### `getMyBooks`
-
-> Pesquisa e retorna todos os meus livros.
-
-```jsx
-getMyBooks().then(function(data) {
-  const books = data.books
-
-  // ...
-})
-```
-
-### `searchBooks`
-
-> Pesquisa e retorna todos os livros de um determinado assunto, que podem ou não estar nos meus livros.
-> O termo pesquisado deve ser um dos listados nas [palavras-chave](./PALAVRAS_CHAVE.md), outros termos podem não funcionar.
-
-```jsx
-searchBooks(PALAVRA_CHAVE).then(function(data) {
-  const books = data.books
-
-  // ...
-})
-```
-
-### `updateBook`
-
-> Atualiza um livro para que ele pertença à uma determinada estante. Retorna todas as categorias da estante e os id's de livros pertencentes a cada estante.
-
-```jsx
-updateBook(BOOK, ESTANTE).then(function(data) {
-  const estouLendoIDs = data.currentlyReading
-  const queroLerIDs = data.wantToRead
-  const lidosIDs = data.read
-
-  // ...
-})
-```
+Informações sobre o backend podem ser encontradas no README do servidor.
