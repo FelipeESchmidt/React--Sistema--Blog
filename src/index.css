@@ -11,3 +11,8 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+/* Make Material UI Tab align to left */
+.MuiTab-wrapper{
+  display: -webkit-inline-box !important;
+}
