@@ -1,7 +1,11 @@
 import React from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { Tab, Tabs, Button } from '@material-ui/core';
 import { makeStyles, createTheme, ThemeProvider } from '@material-ui/core/styles';
 import { AddBox as Add } from '@material-ui/icons';
+
+import { navSelected } from '../../store/Navigation/Navigation.selectors';
+import { toggleNav } from '../../store/Navigation/Navigation.actions';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -62,6 +66,9 @@ function Aside() {
 
     const classes = useStyles();
 
+    const dispatch = useDispatch();
+    const navValue = useSelector(navSelected);
+
     const categorias = [
         {
             name: 'React',
@@ -77,11 +84,9 @@ function Aside() {
         },
     ];
 
-    const [value, setValue] = React.useState(0);
-
-    const handleChange = (event, newValue) => {
-        setValue(newValue);
-    };
+    function handleChange(event, newValue) {
+        dispatch(toggleNav(newValue));
+    }
 
     return (
         <aside className={classes.root}>
@@ -89,22 +94,22 @@ function Aside() {
             <Tabs
                 orientation="vertical"
                 variant="scrollable"
-                value={value}
+                value={navValue}
                 onChange={handleChange}
                 aria-label="Categorias do Blog"
                 indicatorColor="primary"
                 className={classes.tabs}
             >
                 <Tab label="Home" />
-                {categorias.map(categoria =>
-                    <Tab label={categoria.name} />
+                {categorias.map((categoria, index) =>
+                    <Tab key={index} label={categoria.name} />
                 )}
             </Tabs>
             <ThemeProvider theme={theme}>
                 <Button className={classes.criarCategoria}
                     variant="outlined"
                     color="primary"
-                    startIcon={<Add/>}
+                    startIcon={<Add />}
                 >
                     Nova Categoria
                 </Button>
