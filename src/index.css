@@ -14,5 +14,13 @@ code {
 
 /* Make Material UI Tab align to left */
 .MuiTab-wrapper{
-  display: -webkit-inline-box !important;
+  display: flex !important;
+  flex-direction: row !important;
+  justify-content: flex-start !important;
+}
+
+/* Make Material UI Icons looks better */
+.MuiTab-labelIcon {
+  min-height: 48px !important;
+  padding-top: 0 !important;
 }
