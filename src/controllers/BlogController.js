@@ -2,16 +2,10 @@ class BlogController {
     constructor() {
         this.categorias = [];
         this.posts = [];
-        this.update();
     }
 
-    update(){
-        this.categorias = this.getCategorias();
-        this.posts = this.getPosts();
-    }
-
-    getCategorias() {
-        return [
+    getCategorias(setDado) {
+        this.categorias = [
             {
                 name: 'React',
                 path: 'react',
@@ -25,10 +19,21 @@ class BlogController {
                 path: 'compasso',
             },
         ];
+        setTimeout(() => setDado(this.categorias), 2000);
     }
 
-    getPosts() {
-        return {
+    findNavValue() {
+        let indexFind = 0;
+        this.categorias.forEach((categoria, index, array) => {
+            if (window.location.pathname === "/"+categoria.path) {
+                indexFind = index;
+            }
+        });
+        return indexFind;
+    }
+
+    getPosts(setDado) {
+        this.posts = {
             '8xf0y6ziyjabvozdd253nd': {
                 id: '8xf0y6ziyjabvozdd253nd',
                 timestamp: 1467166872634,
@@ -52,6 +57,7 @@ class BlogController {
                 commentCount: 0,
             },
         };
+        setDado(this.posts);
     }
 }
 
