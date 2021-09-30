@@ -23,7 +23,8 @@ function App() {
             </Route>
             <Route path="/read">
             </Route>
-            <Route path="/search/:type">
+            <Route path="/:categoria">
+              
             </Route>
             <Redirect from="/search" to="/" />
             <Route path="/">
