@@ -5,11 +5,14 @@ const defaultObject = {
 
 export default function reducer(state = defaultObject, action) {
     switch (action.type) {
-        case 'GET':
-            return action.payload;
-        
         case 'FILTER':
-            return action.payload;
+            return { ...state, visiblePosts: state.allPosts.filter(post => post['category'] === action.payload) }
+
+        case 'REMOVE_FILTER':
+            return { ...state, visiblePosts: state.allPosts };
+
+        case 'LOAD/API':
+            return { ...state, allPosts: action.payload };
 
         default:
             return state;

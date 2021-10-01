@@ -1,4 +1,4 @@
-const api = "https://reactnd-books-api.udacity.com";
+const api = "https://compasso-blog-api.herokuapp.com";
 
 window.token = localStorage.token;
 if (!window.token) {
@@ -11,14 +11,13 @@ const headers = {
   Authorization: window.token
 }
 
-export function getBook(bookId) {
+export function getPosts() {
   return new Promise((resolve, reject) => {
-    fetch(api + '/books/' + bookId.toString(), { headers })
+    fetch(api + '/posts', { headers })
       .then(response => response.json())
       .then(data => resolve(data))
       .catch(reject)
   })
-
 }
 
 export function getMyBooks() {

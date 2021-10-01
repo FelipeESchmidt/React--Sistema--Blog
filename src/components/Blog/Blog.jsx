@@ -1,31 +1,28 @@
 import React, { useContext, useEffect, useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { useParams } from 'react-router';
 import ApiContext from '../../contexts/ApiContext';
+
+import { posts } from '../../store/Posts/Posts.selectors';
+import { filterPosts, removeFilters } from '../../store/Posts/Posts.actions';
 
 function Blog() {
 
     const { categoria } = useParams();
 
-    const context = useContext(ApiContext);
+    const dispatch = useDispatch();
+    const postToShow = useSelector(posts);
+    console.log(postToShow.allPosts);
 
-    const [posts, setPosts] = useState(null);
-
-    useEffect(()=>{
-        setPosts(null);
-
-        context.controller.getPosts(setPosts);
-        
-    }, [context]);
-
-    if(!posts){
+    if(!postToShow.allPosts.lenght === 0){
         return <h2>loading...</h2>
     }
 
     return (
         <>
             <h1>{categoria}</h1>
-            {Object.keys(posts).map(key=>(
-                <h2 key={key}>{posts[key].title}</h2>
+            {postToShow.allPosts.map((post, index) => (
+                <h2 key={index}>{post.title}</h2>
             ))}
         </>
     );

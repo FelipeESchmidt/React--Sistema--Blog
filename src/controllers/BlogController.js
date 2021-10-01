@@ -57,7 +57,9 @@ class BlogController {
                 commentCount: 0,
             },
         };
-        setDado(this.posts);
+        setTimeout(() => {
+            return this.posts;
+        }, 1000);
     }
 }
 
