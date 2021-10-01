@@ -1,9 +1,11 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
-import Aside from '../Aside';
 
 import BlogController from '../../controllers/BlogController';
 import ApiContext from '../../contexts/ApiContext';
+
+import Aside from '../Aside';
+import Blog from '../Blog';
 
 function App() {
 
@@ -16,6 +18,7 @@ function App() {
         <Wrapper>
           <Switch>
             <Route exact path="/">
+              <Blog />
             </Route>
             <Route path="/reading">
             </Route>
@@ -24,7 +27,7 @@ function App() {
             <Route path="/read">
             </Route>
             <Route path="/:categoria">
-              
+              <Blog />
             </Route>
             <Redirect from="/search" to="/" />
             <Route path="/">

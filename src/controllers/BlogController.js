@@ -23,7 +23,7 @@ class BlogController {
     }
 
     findNavValue() {
-        let indexFind = 0;
+        let indexFind = -1;
         this.categorias.forEach((categoria, index, array) => {
             if (window.location.pathname === "/"+categoria.path) {
                 indexFind = index;
