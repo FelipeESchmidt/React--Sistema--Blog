@@ -20,6 +20,15 @@ export function getPosts() {
   })
 }
 
+export function getCategorias() {
+  return new Promise((resolve, reject) => {
+    fetch(api + '/categories', { headers })
+      .then(response => response.json())
+      .then(data => resolve(data))
+      .catch(reject)
+  })
+}
+
 export function getMyBooks() {
   return new Promise(function (resolve, reject) {
     fetch(api + '/books', { headers })

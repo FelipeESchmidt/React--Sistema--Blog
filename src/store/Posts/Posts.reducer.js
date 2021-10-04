@@ -1,3 +1,5 @@
+import { FILTER, LOAD_API } from "./Posts.types";
+
 const defaultObject = {
     allPosts: [],
     visiblePosts: []
@@ -5,14 +7,11 @@ const defaultObject = {
 
 export default function reducer(state = defaultObject, action) {
     switch (action.type) {
-        case 'FILTER':
+        case FILTER:
             return { ...state, visiblePosts: state.allPosts.filter(post => post['category'] === action.payload) }
 
-        case 'REMOVE_FILTER':
-            return { ...state, visiblePosts: state.allPosts };
-
-        case 'LOAD/API':
-            return { ...state, allPosts: action.payload };
+        case LOAD_API:
+            return { ...state, allPosts: action.payload, visiblePosts: action.payload };
 
         default:
             return state;
