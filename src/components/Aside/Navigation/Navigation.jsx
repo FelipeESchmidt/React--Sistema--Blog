@@ -45,7 +45,7 @@ function Navigation() {
         if (!categorias[newValue - 1]) {
             history.push('');
         } else {
-            history.push(categorias[newValue - 1].path);
+            history.push("/"+categorias[newValue - 1].path,history.location);
         }
         dispatch(toggleNav(newValue));
     }
