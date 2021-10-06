@@ -1,10 +1,17 @@
 import { getPosts } from "../../api/blog";
-import { FILTER, LOAD_API } from "./Posts.types";
+import { FILTER, REMOVE_FILTER, LOAD_API } from "./Posts.types";
 
 export function filterPosts(filter) {
     return {
         type: FILTER,
         payload: filter
+    }
+}
+
+export function unfilterPosts() {
+    return {
+        type: REMOVE_FILTER,
+        payload: ""
     }
 }
 

@@ -20,16 +20,13 @@ function App() {
             <Route exact path="/">
               <Blog />
             </Route>
-            <Route path="/reading">
-            </Route>
-            <Route path="/want_read">
-            </Route>
-            <Route path="/read">
+            <Redirect from="/post" to="/" />
+            <Route path="/post/:id">
+              <h2>Post</h2>
             </Route>
             <Route path="/:categoria">
               <Blog />
             </Route>
-            <Redirect from="/search" to="/" />
             <Route path="/">
               <h1>404</h1>
             </Route>
@@ -42,7 +39,7 @@ function App() {
 
 function Wrapper({ children }) {
   return (
-    <div style={{ marginLeft: "300px" }}>
+    <div style={{ marginLeft: "300px", height: "100%", maxWidth: "calc(100% - 300px)" }}>
       {children}
     </div>
   );
