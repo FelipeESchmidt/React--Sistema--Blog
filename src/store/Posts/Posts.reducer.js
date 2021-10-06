@@ -38,7 +38,7 @@ export default function reducer(state = defaultObject, action) {
             return {
                 ...state,
                 visiblePosts: state.visiblePosts.sort((p1, p2) => {
-                    return p1[action.payload.value] - p2[action.payload.value];
+                    return (p1[action.payload.value] > p2[action.payload.value]) ? -1 : 1;
                 }),
                 order: {
                     by: action.payload,

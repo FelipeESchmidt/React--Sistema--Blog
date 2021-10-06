@@ -24,6 +24,9 @@ function App() {
             <Route path="/post/:id">
               <h2>Post</h2>
             </Route>
+            <Route path="/createPost">
+              <h2>Create Post</h2>
+            </Route>
             <Route path="/:categoria">
               <Blog />
             </Route>

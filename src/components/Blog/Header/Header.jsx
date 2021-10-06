@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 import { useHistory } from 'react-router';
 import { useDispatch, useSelector } from 'react-redux';
@@ -9,11 +9,12 @@ import { ArrowUpward as IconUP, ArrowDownward as IconDown, AddCircle } from '@ma
 import { Autocomplete } from '@material-ui/lab';
 import { changeOrderDirection, disorderPosts, orderPostsBy } from '../../../store/Posts/Posts.actions';
 
-const options = [{ label: 'Evaluation', value: 'voteScore' }, { label: 'Date', value: 'timestamp' }];
+const options = [{ label: 'Vote Score', value: 'voteScore' }, { label: 'Date', value: 'timestamp' }];
 
 const useStyles = makeStyles((theme) => ({
     root: {
-        display: "flex"
+        display: "flex",
+        
     },
     buttonOrder: {
         marginRight: "8px",
