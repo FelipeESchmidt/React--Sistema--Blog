@@ -1,11 +1,15 @@
 import React, { useState } from 'react';
-import { TextField, IconButton, Button, makeStyles } from '@material-ui/core';
-import { Autocomplete } from '@material-ui/lab';
 
-import { ArrowUpward as IconUP, ArrowDownward as IconDown, AddCircle } from '@material-ui/icons';
 import { useHistory } from 'react-router';
+import { useDispatch, useSelector } from 'react-redux';
+import { posts } from '../../../store/Posts/Posts.selectors';
 
-const options = ['Evaluation', 'Date'];
+import { TextField, IconButton, Button, makeStyles } from '@material-ui/core';
+import { ArrowUpward as IconUP, ArrowDownward as IconDown, AddCircle } from '@material-ui/icons';
+import { Autocomplete } from '@material-ui/lab';
+import { changeOrderDirection, disorderPosts, orderPostsBy } from '../../../store/Posts/Posts.actions';
+
+const options = [{ label: 'Evaluation', value: 'voteScore' }, { label: 'Date', value: 'timestamp' }];
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -23,11 +27,24 @@ const useStyles = makeStyles((theme) => ({
 function Header() {
 
     const classes = useStyles();
-    const [i, setI] = useState(false);
 
     const history = useHistory();
+    const dispatch = useDispatch();
+    const blogPosts = useSelector(posts);
 
-    function handleNewPost(e){
+    function handleChangeOrderBy(e, order) {
+        if (order) {
+            dispatch(orderPostsBy(order));
+        } else {
+            dispatch(disorderPosts());
+        }
+    }
+
+    function handleChangeDirection() {
+        dispatch(changeOrderDirection());
+    }
+
+    function handleNewPost(e) {
         history.push("/createPost");
     }
 
@@ -35,17 +52,23 @@ function Header() {
         <main className={classes.root}>
             <IconButton
                 className={classes.buttonOrder}
-                onClick={e => setI(!i)}
+                onClick={handleChangeDirection}
+                disabled={blogPosts.order.direction === ""}
             >
-                {i ? <IconDown /> : <IconUP />}
+                {(blogPosts.order.direction === "UP") ? <IconUP /> : <IconDown />}
             </IconButton>
             <Autocomplete
-                // value={value}
-                // onChange={(event, newValue) => {
-                //     setValue(newValue);
-                // }}
+                value={blogPosts.order.by.value}
+                onChange={handleChangeOrderBy}
                 id="orderBy"
                 options={options}
+                getOptionLabel={(option) => blogPosts.order.by.label}
+                getOptionSelected={(option) => option.value}
+                renderOption={(option) => (
+                    <React.Fragment>
+                        <span>{(option.label)}</span>
+                    </React.Fragment>
+                )}
                 style={{ width: 300 }}
                 size="small"
                 renderInput={(params) => <TextField {...params} label="Order By" variant="outlined" />}

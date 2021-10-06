@@ -32,8 +32,8 @@ function Blog() {
             dispatch(unfilterPosts());
         }
     }, [categoria, dispatch]);
-
-    if(blogPosts.allPosts.length === 0){
+    
+    if(blogPosts.loading){
         return (
             <main className={classes.root}>
                 <Header></Header>
