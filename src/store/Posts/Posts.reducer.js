@@ -26,7 +26,14 @@ export default function reducer(state = defaultObject, action) {
             }
 
         case REMOVE_FILTER:
-            return { ...state, visiblePosts: state.allPosts }
+            return {
+                ...state,
+                visiblePosts: state.allPosts,
+                order: {
+                    by: { label: "", value: "" },
+                    direction: ""
+                }
+            }
 
         case REQUEST:
             return { ...state, loading: true };
