@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { useHistory } from 'react-router';
+
 import { Button } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { AddBox as Add } from '@material-ui/icons';
@@ -11,7 +13,7 @@ const useStyles = makeStyles((theme) => ({
         padding: "0.5rem",
         borderColor: "#66bb6a",
         color: "#66bb6a",
-        "&:hover, &:focus":{
+        "&:hover":{
             backgroundColor: "#beffc0"
         }
     }
@@ -19,9 +21,18 @@ const useStyles = makeStyles((theme) => ({
 
 
 function BtnNewCategoria() {
+
     const classes = useStyles();
+    const history = useHistory();
+
+    function handleClick(){
+        history.push("/createCategory");
+    }
+
     return (
-        <Button className={classes.criarCategoria}
+        <Button
+            onClick={handleClick}
+            className={classes.criarCategoria}
             variant="outlined"
             startIcon={<Add />}
         >

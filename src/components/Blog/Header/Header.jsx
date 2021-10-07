@@ -20,6 +20,9 @@ const useStyles = makeStyles((theme) => ({
         marginRight: "8px",
         padding: "8px",
     },
+    selectOrder: {
+        width: "300px"
+    },
     buttonNewPost: {
         marginLeft: "8px",
     }
@@ -70,7 +73,7 @@ function Header() {
                         <span>{(option.label)}</span>
                     </React.Fragment>
                 )}
-                style={{ width: 300 }}
+                className={classes.selectOrder}
                 size="small"
                 renderInput={(params) => <TextField {...params} label="Order By" variant="outlined" />}
             />

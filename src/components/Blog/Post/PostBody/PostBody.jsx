@@ -1,5 +1,7 @@
 import React, { useContext } from 'react';
 
+import { useHistory } from 'react-router';
+
 import { makeStyles, Typography } from '@material-ui/core';
 
 import PostContext from '../../../../contexts/PostContext';
@@ -7,6 +9,7 @@ import PostContext from '../../../../contexts/PostContext';
 const useStyles = makeStyles((theme) => ({
     texts: {
         padding: "1em",
+        cursor: "pointer"
     },
     title: {
         minHeight: "3.8em",
@@ -32,6 +35,7 @@ const useStyles = makeStyles((theme) => ({
 function PostBody() {
 
     const classes = useStyles();
+    const history = useHistory();
     const post = useContext(PostContext);
 
     function dateHelper(info, size) {
@@ -55,8 +59,12 @@ function PostBody() {
         return text.slice(0, limiter) + (text.length > limiter ? "..." : "");
     }
 
+    function handleClickPost(){
+        history.push(`/post/${post.id}`);
+    }
+
     return (
-        <div className={classes.texts}>
+        <div className={classes.texts} onClick={handleClickPost}>
             <Typography className={classes.title} variant="subtitle1">{post.title}</Typography>
             <Typography className={classes.body} variant="subtitle2">{limitText(post.body, 100)}</Typography>
             <Typography className={classes.basic} variant="subtitle2">Posted By {post.author}</Typography>

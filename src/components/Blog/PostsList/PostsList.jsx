@@ -12,8 +12,6 @@ import PostContext from '../../../contexts/PostContext';
 import { posts } from '../../../store/Posts/Posts.selectors';
 import { filterPosts, unfilterPosts } from '../../../store/Posts/Posts.actions';
 
-
-
 function PostsList() {
 
     const { categoria } = useParams();
@@ -36,12 +34,12 @@ function PostsList() {
     }
 
     return (
-        <Container style={{ margin: "20px 0" }}>
+        <Container maxWidth={false} style={{ margin: "20px 0" }}>
             <Grid
                 container
                 direction="row"
                 alignItems="flex-start"
-                justifyContent="center"
+                justifyContent="flex-start"
                 spacing={2}
             >
                 {blogPosts.visiblePosts.map((post, index) => {

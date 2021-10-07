@@ -7,6 +7,7 @@ import PostsList from './PostsList';
 
 const useStyles = makeStyles((theme) => ({
     root: {
+        boxSizing: "border-box",
         minHeight: "100%",
         padding: "1em",
         backgroundColor: theme.palette.grey[50],
