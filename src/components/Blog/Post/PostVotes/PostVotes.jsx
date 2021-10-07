@@ -12,7 +12,6 @@ const useStyles = makeStyles((theme) => ({
         alignItems: "center",
         justifyContent: "space-evenly",
         padding: "0 5px",
-        height: "100%",
         borderRight: `1px solid ${theme.palette.grey[400]}`
     },
     voteButton: {

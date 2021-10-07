@@ -7,10 +7,16 @@ import PostBody from './PostBody';
 import PostBottom from './PostBottom';
 
 const useStyles = makeStyles((theme) => ({
-    paper: {
+    paperSmall: {
         display: "flex",
         width: "350px",
         height: "250px",
+        boxSizing: "border-box"
+    },
+    paperBig: {
+        display: "flex",
+        width: "100%",
+        height: "100%",
         boxSizing: "border-box"
     },
     post: {
@@ -20,13 +26,13 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-function Post() {
+function Post({ isSmall = true }) {
 
     const classes = useStyles();
 
     return (
         <Grid item>
-            <Paper className={classes.paper}>
+            <Paper className={(isSmall) ? classes.paperSmall : classes.paperBig}>
                 <PostVotes />
                 <div className={classes.post}>
                     <PostBody />

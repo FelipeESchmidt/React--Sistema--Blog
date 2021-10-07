@@ -1,0 +1,1 @@
+export const singlePost = state => state.singlePost;

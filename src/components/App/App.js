@@ -6,6 +6,7 @@ import ApiContext from '../../contexts/ApiContext';
 
 import Aside from '../Aside';
 import Blog from '../Blog';
+import SinglePost from '../Blog/SinglePost';
 
 function App() {
 
@@ -21,7 +22,7 @@ function App() {
               <Blog />
             </Route>
             <Route path="/post/:id">
-              <h2>Post</h2>
+              <SinglePost />
             </Route>
             <Redirect from="/post" to="/" />
             <Route path="/editPost/:id">

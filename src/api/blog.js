@@ -29,9 +29,26 @@ export function getCategorias() {
   })
 }
 
-export function getMyBooks() {
+export async function getFullPost(id) {
+  const post = await getPost(id);
+  const postComments = await getPostCommets(id);
+  return {
+    post: post,
+    comments: postComments
+  }
+}
+
+function getPost(id){
   return new Promise(function (resolve, reject) {
-    fetch(api + '/books', { headers })
+    fetch(api + `/posts/${id}`, { headers })
+      .then(response => response.json())
+      .then(data => resolve(data))
+      .catch(reject)
+  })
+}
+function getPostCommets(id){
+  return new Promise(function (resolve, reject) {
+    fetch(api + `/posts/${id}/comments`, { headers })
       .then(response => response.json())
       .then(data => resolve(data))
       .catch(reject)
