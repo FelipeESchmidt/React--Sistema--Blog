@@ -1,5 +1,5 @@
 import { getCategorias } from "../../api/blog";
-import { LOAD_API } from "./Categories.types";
+import { LOAD_API, REQUEST } from "./Categories.types";
 
 function loadAPI(response) {
     return {
@@ -8,7 +8,15 @@ function loadAPI(response) {
     }
 }
 
+function startRequest() {
+    return {
+        type: REQUEST,
+        payload: ''
+    }
+}
+
 export async function fetchCategories(dispatch) {
+    dispatch(startRequest());
     const response = await getCategorias();
     dispatch(loadAPI(response));
 }

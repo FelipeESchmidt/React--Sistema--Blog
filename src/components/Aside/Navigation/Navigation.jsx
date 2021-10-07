@@ -28,13 +28,12 @@ function Navigation() {
 
     const dispatch = useDispatch();
     const navValue = useSelector(navSelected);
-    const categorias = useSelector(categories);
+    const categoriasSelector = useSelector(categories);
+    const categorias = categoriasSelector.categories;
 
     const context = useContext(ApiContext);
 
-
     useEffect(() => {
-        
         if (categorias.length) {
             dispatch(toggleNav(context.controller.findNavValue(categorias)+1));
         }
@@ -50,7 +49,7 @@ function Navigation() {
         dispatch(toggleNav(newValue));
     }
 
-    if (!categorias.length) {
+    if (categoriasSelector.loading) {
         return <Loading position="middle" padding={1}></Loading>
     }
 
