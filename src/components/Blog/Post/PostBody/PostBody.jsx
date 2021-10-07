@@ -5,13 +5,17 @@ import { useHistory } from 'react-router';
 import { makeStyles, Typography } from '@material-ui/core';
 
 import PostContext from '../../../../contexts/PostContext';
+import ApiContext from '../../../../contexts/ApiContext';
 
 const useStyles = makeStyles((theme) => ({
-    texts: {
+    textsSmall: {
         padding: "1em",
         cursor: "pointer"
     },
-    title: {
+    textsBig: {
+        padding: "2em",
+    },
+    titleSmall: {
         minHeight: "3.8em",
         maxHeight: "3.8em",
         overflow: "hidden",
@@ -19,11 +23,20 @@ const useStyles = makeStyles((theme) => ({
         color: "black",
         fontWeight: "bold",
     },
-    body: {
+    titleBig: {
+        marginBottom: "1em",
+        color: "black",
+        fontWeight: "bold",
+    },
+    bodySmall: {
         minHeight: "4.3em",
         maxHeight: "4.3em",
         overflow: "hidden",
         marginBottom: "0.5em",
+        color: "black",
+    },
+    bodyBig: {
+        marginBottom: "1em",
         color: "black",
     },
     basic: {
@@ -32,43 +45,36 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-function PostBody() {
+function PostBody({ isSmall = true }) {
 
     const classes = useStyles();
     const history = useHistory();
     const post = useContext(PostContext);
+    const context = useContext(ApiContext);
 
-    function dateHelper(info, size) {
-        let infoBetter = "0" + info;
-        return infoBetter.substr(size * -1);
-    }
+    const transformDate = context.controller.dateTransform.bind(context.controller);
+    const limitText = context.controller.limitText.bind(context.controller);
 
-    function dateTransform(timestamp) {
-        const date = new Date(timestamp);
-        const day = dateHelper(date.getDay(), 2);
-        const month = dateHelper(date.getMonth(), 2);
-        const year = dateHelper(date.getFullYear(), 4);
-        const hours = dateHelper(date.getHours(), 2);
-        const minutes = dateHelper(date.getMinutes(), 2);
-        const seconds = dateHelper(date.getSeconds(), 2);
-        const formatedDate = day + "/" + month + "/" + year + " " + hours + ":" + minutes + ":" + seconds;
-        return formatedDate;
-    }
-
-    function limitText(text, limiter) {
-        return text.slice(0, limiter) + (text.length > limiter ? "..." : "");
-    }
-
-    function handleClickPost(){
+    function handleClickPost() {
         history.push(`/post/${post.id}`);
     }
 
     return (
-        <div className={classes.texts} onClick={handleClickPost}>
-            <Typography className={classes.title} variant="subtitle1">{post.title}</Typography>
-            <Typography className={classes.body} variant="subtitle2">{limitText(post.body, 100)}</Typography>
+        <div className={(isSmall) ? classes.textsSmall : classes.textsBig} onClick={handleClickPost}>
+            <Typography
+                className={(isSmall) ? classes.titleSmall : classes.titleBig}
+                variant="subtitle1"
+            >
+                {post.title}
+            </Typography>
+            <Typography
+                className={(isSmall) ? classes.bodySmall : classes.bodyBig}
+                variant="subtitle2"
+            >
+                {(isSmall) ? limitText(post.body, 100) : post.body}
+            </Typography>
             <Typography className={classes.basic} variant="subtitle2">Posted By {post.author}</Typography>
-            <Typography className={classes.basic} variant="subtitle2">{dateTransform(post.timestamp)}</Typography>
+            <Typography className={classes.basic} variant="subtitle2">{transformDate(post.timestamp)}</Typography>
         </div>
     );
 }

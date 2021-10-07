@@ -11,7 +11,11 @@ const useStyles = makeStyles((theme) => ({
         display: "flex",
         width: "350px",
         height: "250px",
-        boxSizing: "border-box"
+        boxSizing: "border-box",
+        transition: "0.8s",
+        "&:hover": {
+            boxShadow: `0px 0px 15px -2px ${theme.palette.primary.light}`
+        }
     },
     paperBig: {
         display: "flex",
@@ -21,6 +25,7 @@ const useStyles = makeStyles((theme) => ({
     },
     post: {
         display: "flex",
+        width: "100%",
         flexDirection: "column",
         justifyContent: "space-between"
     }
@@ -35,7 +40,7 @@ function Post({ isSmall = true }) {
             <Paper className={(isSmall) ? classes.paperSmall : classes.paperBig}>
                 <PostVotes />
                 <div className={classes.post}>
-                    <PostBody />
+                    <PostBody isSmall={isSmall} />
                     <PostBottom />
                 </div>
             </Paper>
