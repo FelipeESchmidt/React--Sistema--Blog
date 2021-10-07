@@ -2,13 +2,16 @@ import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useParams } from 'react-router';
 
+import { Container, Grid } from '@material-ui/core';
+
 import Loading from '../../Loading';
 import Post from '../Post';
+
+import PostContext from '../../../contexts/PostContext';
 
 import { posts } from '../../../store/Posts/Posts.selectors';
 import { filterPosts, unfilterPosts } from '../../../store/Posts/Posts.actions';
 
-import { Container, Grid } from '@material-ui/core';
 
 
 function PostsList() {
@@ -41,7 +44,13 @@ function PostsList() {
                 justifyContent="center"
                 spacing={2}
             >
-                {blogPosts.visiblePosts.map((post, index) => <Post key={index} post={post}></Post>)}
+                {blogPosts.visiblePosts.map((post, index) => {
+                    return (
+                        <PostContext.Provider value={post} key={index} >
+                            <Post />
+                        </PostContext.Provider>
+                    )
+                })}
             </Grid>
         </Container>
     );

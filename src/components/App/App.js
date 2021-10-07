@@ -20,10 +20,14 @@ function App() {
             <Route exact path="/">
               <Blog />
             </Route>
-            <Redirect from="/post" to="/" />
             <Route path="/post/:id">
               <h2>Post</h2>
             </Route>
+            <Redirect from="/post" to="/" />
+            <Route path="/editPost/:id">
+              <h2>Edit Post</h2>
+            </Route>
+            <Redirect from="/editPost" to="/" />
             <Route path="/createPost">
               <h2>Create Post</h2>
             </Route>
