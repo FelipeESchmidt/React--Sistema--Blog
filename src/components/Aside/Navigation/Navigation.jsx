@@ -2,7 +2,7 @@ import React, { useContext, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router';
 
-import ApiContext from '../../../contexts/ApiContext';
+import BlogContext from '../../../contexts/BlogContext';
 import Loading from '../../Loading';
 
 import { categories } from '../../../store/Categories/Categories.selector';
@@ -31,11 +31,11 @@ function Navigation() {
     const categoriasSelector = useSelector(categories);
     const categorias = categoriasSelector.categories;
 
-    const context = useContext(ApiContext);
+    const context = useContext(BlogContext);
 
     useEffect(() => {
         if (categorias.length) {
-            dispatch(toggleNav(context.controller.findNavValue(categorias)+1));
+            dispatch(toggleNav(context.helper.findNavValue(categorias)+1));
         }
 
     }, [categorias, context, dispatch]);

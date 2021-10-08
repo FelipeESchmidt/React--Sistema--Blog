@@ -2,7 +2,8 @@ import React from 'react';
 import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
 
 import BlogController from '../../controllers/BlogController';
-import ApiContext from '../../contexts/ApiContext';
+import FormController from '../../controllers/FormController';
+import BlogContext from '../../contexts/BlogContext';
 
 import Aside from '../Aside';
 import Blog from '../Blog';
@@ -10,10 +11,11 @@ import SinglePost from '../Blog/SinglePost';
 
 function App() {
 
-  const controller = new BlogController();
+  const blogController = new BlogController();
+  const formController = new FormController();
 
   return (
-    <ApiContext.Provider value={{ controller: controller }}>
+    <BlogContext.Provider value={{ helper: blogController, validate: formController }}>
       <Router>
         <Aside />
         <Wrapper>
@@ -44,7 +46,7 @@ function App() {
           </Switch>
         </Wrapper>
       </Router>
-    </ApiContext.Provider>
+    </BlogContext.Provider>
   );
 }
 
