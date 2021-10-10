@@ -10,7 +10,8 @@ import { changeField, resetForms, validateField } from '../../../store/Form/Form
 
 import BlogContext from '../../../contexts/BlogContext';
 
-import { TextField, Button, Container, InputLabel, Select, FormControl } from "@material-ui/core";
+import { TextField, Button, Container, InputLabel, Select, FormControl, Typography, Snackbar } from "@material-ui/core";
+import { Alert } from '@material-ui/lab';
 
 const formId = "createPost";
 const formFields = ["title", "body", "author", "category"];
@@ -22,6 +23,12 @@ function CreatePost() {
     const categoriesReducer = useSelector(categories);
 
     const validator = useContext(BlogContext).validate;
+
+    const [openAlert, setOpenAlert] = React.useState(false);
+    function handleCloseAlert(event, reason) {
+        if (reason === 'clickaway') return;
+        setOpenAlert(false);
+    };
 
     useEffect(() => {
         dispatch(resetForms());
@@ -36,6 +43,7 @@ function CreatePost() {
                 timestamp: Date.now()
             }
             formFields.map(field => post[field] = formReducer.forms[formId][field]['value']);
+            setOpenAlert(true);
             createPost(post);
             dispatch(fetchPosts);
             dispatch(resetForms());
@@ -77,6 +85,7 @@ function CreatePost() {
 
     return (
         <Container maxWidth="md">
+            <Typography variant="h4" style={{ margin: "80px 0 20px 0" }}>Criate new post</Typography>
             <form onSubmit={handleEnviar} >
                 <TextField
                     value={(formReducer.forms[formId].title) ? formReducer.forms[formId].title['value'] : ""}
@@ -148,10 +157,15 @@ function CreatePost() {
                     </Select>
                 </FormControl>
 
-                <Button type="submit" variant="contained" color="primary">
-                    Criar
+                <Button type="submit" variant="contained" color="primary" style={{ marginTop: "16px" }} >
+                    Create
                 </Button>
             </form>
+            <Snackbar open={openAlert} autoHideDuration={6000} onClose={handleCloseAlert} anchorOrigin={{ vertical: "top", horizontal: "center" }}>
+                <Alert onClose={handleCloseAlert} severity="success">
+                    New post sucessfuly created!
+                </Alert>
+            </Snackbar>
         </Container>
     );
 }

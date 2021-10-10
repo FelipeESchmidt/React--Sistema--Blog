@@ -8,6 +8,7 @@ import BlogContext from '../../contexts/BlogContext';
 import Aside from '../Aside';
 import Blog from '../Blog';
 import CreatePost from '../Forms/CreatePost';
+import CreateCategory from '../Forms/CreateCategory';
 import SinglePost from '../Blog/SinglePost';
 
 function App() {
@@ -36,7 +37,7 @@ function App() {
               <CreatePost />
             </Route>
             <Route path="/createCategory">
-              <h2>Create Category</h2>
+              <CreateCategory />
             </Route>
             <Route path="/:categoria">
               <Blog />
