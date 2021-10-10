@@ -10,8 +10,9 @@ import { changeField, resetForms, validateField } from '../../../store/Form/Form
 
 import BlogContext from '../../../contexts/BlogContext';
 
-import { TextField, Button, Container, InputLabel, Select, FormControl, Typography, Snackbar } from "@material-ui/core";
-import { Alert } from '@material-ui/lab';
+import { TextField, Button, Container, InputLabel, Select, FormControl, Typography } from "@material-ui/core";
+import AlertMessage from '../../AlertMessage';
+import { newMessage } from '../../../store/Alert/Alert.actions';
 
 const formId = "createPost";
 const formFields = ["title", "body", "author", "category"];
@@ -23,12 +24,6 @@ function CreatePost() {
     const categoriesReducer = useSelector(categories);
 
     const validator = useContext(BlogContext).validate;
-
-    const [openAlert, setOpenAlert] = React.useState(false);
-    function handleCloseAlert(event, reason) {
-        if (reason === 'clickaway') return;
-        setOpenAlert(false);
-    };
 
     useEffect(() => {
         dispatch(resetForms());
@@ -43,10 +38,14 @@ function CreatePost() {
                 timestamp: Date.now()
             }
             formFields.map(field => post[field] = formReducer.forms[formId][field]['value']);
-            setOpenAlert(true);
             createPost(post);
             dispatch(fetchPosts);
             dispatch(resetForms());
+            const alert = {
+                message: 'Post sucessfuly created!',
+                type: "success"
+            }
+            dispatch(newMessage(alert));
         }
     }
 
@@ -161,11 +160,7 @@ function CreatePost() {
                     Create
                 </Button>
             </form>
-            <Snackbar open={openAlert} autoHideDuration={6000} onClose={handleCloseAlert} anchorOrigin={{ vertical: "top", horizontal: "center" }}>
-                <Alert onClose={handleCloseAlert} severity="success">
-                    New post sucessfuly created!
-                </Alert>
-            </Snackbar>
+            <AlertMessage></AlertMessage>
         </Container>
     );
 }

@@ -7,10 +7,12 @@ import { fetchCategories } from '../../../store/Categories/Categories.actions';
 import { form } from '../../../store/Form/Form.selectors';
 import { changeField, resetForms, validateField } from '../../../store/Form/Form.actions';
 
-import BlogContext from '../../../contexts/BlogContext';
+import { newMessage } from '../../../store/Alert/Alert.actions';
 
-import { TextField, Button, Container, Typography, Snackbar } from "@material-ui/core";
-import { Alert } from '@material-ui/lab';
+import BlogContext from '../../../contexts/BlogContext';
+import AlertMessage from '../../AlertMessage';
+
+import { TextField, Button, Container, Typography } from "@material-ui/core";
 
 const formId = "createPost";
 const formFields = ["category"];
@@ -21,12 +23,6 @@ function CreateCategory() {
     const formReducer = useSelector(form);
 
     const validator = useContext(BlogContext).validate;
-
-    const [openAlert, setOpenAlert] = React.useState(false);
-    function handleCloseAlert(event, reason) {
-        if (reason === 'clickaway') return;
-        setOpenAlert(false);
-    };
     
     useEffect(() => {
         dispatch(resetForms());
@@ -43,7 +39,11 @@ function CreateCategory() {
                 createCategory(category);
                 dispatch(fetchCategories);
             }
-            setOpenAlert(true);
+            const alert = {
+                message: `Category '${category.category}' sucessfuly created!`,
+                type: "success"
+            }
+            dispatch(newMessage(alert));
             dispatch(resetForms());
         }
     }
@@ -113,11 +113,7 @@ function CreateCategory() {
                     Create
                 </Button>
             </form>
-            <Snackbar open={openAlert} autoHideDuration={6000} onClose={handleCloseAlert} anchorOrigin={{ vertical: "top", horizontal: "center" }}>
-                <Alert onClose={handleCloseAlert} severity="success">
-                    New category sucessfuly created!
-                </Alert>
-            </Snackbar>
+            <AlertMessage></AlertMessage>
         </Container>
     );
 }
