@@ -36,8 +36,8 @@ function CreatePost() {
                 timestamp: Date.now()
             }
             formFields.map(field => post[field] = formReducer.forms[formId][field]['value']);
-            // createPost(post);
-            // dispatch(fetchPosts);
+            createPost(post);
+            dispatch(fetchPosts);
         }
     }
 
