@@ -38,6 +38,7 @@ function CreatePost() {
             formFields.map(field => post[field] = formReducer.forms[formId][field]['value']);
             createPost(post);
             dispatch(fetchPosts);
+            dispatch(resetForms());
         }
     }
 
