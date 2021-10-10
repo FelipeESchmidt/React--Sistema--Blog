@@ -1,5 +1,5 @@
 import { getPosts } from "../../api/blog";
-import { FILTER, REMOVE_FILTER, LOAD_API, REQUEST, ORDER, DISORDER, CHANGE_DIRECTION } from "./Posts.types";
+import { FILTER, REMOVE_FILTER, LOAD_API, REQUEST, ORDER, DISORDER, CHANGE_DIRECTION, ADD } from "./Posts.types";
 
 export function filterPosts(filter) {
     return {
@@ -33,6 +33,13 @@ export function changeOrderDirection() {
     return {
         type: CHANGE_DIRECTION,
         payload: ""
+    }
+}
+
+export function addPost(post){
+    return {
+        type: ADD,
+        payload: post
     }
 }
 

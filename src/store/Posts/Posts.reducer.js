@@ -1,4 +1,4 @@
-import { FILTER, REMOVE_FILTER, LOAD_API, REQUEST, ORDER, DISORDER, CHANGE_DIRECTION } from "./Posts.types";
+import { FILTER, REMOVE_FILTER, LOAD_API, REQUEST, ORDER, DISORDER, CHANGE_DIRECTION, ADD } from "./Posts.types";
 
 const defaultObject = {
     allPosts: [],
@@ -23,7 +23,7 @@ export default function reducer(state = defaultObject, action) {
                     by: { label: "", value: "" },
                     direction: ""
                 }
-            }
+            };
 
         case REMOVE_FILTER:
             return {
@@ -33,7 +33,7 @@ export default function reducer(state = defaultObject, action) {
                     by: { label: "", value: "" },
                     direction: ""
                 }
-            }
+            };
 
         case REQUEST:
             return { ...state, loading: true };
@@ -67,6 +67,18 @@ export default function reducer(state = defaultObject, action) {
                 ...state,
                 visiblePosts: state.visiblePosts.reverse(),
                 order: { ...state.order, direction: (state.order.direction === "UP") ? "DOWN" : "UP" }
+            };
+
+        case ADD:
+            state.allPosts.push(action.payload);
+            return {
+                ...state,
+                allPosts: state.allPosts,
+                visiblePosts: state.allPosts,
+                order: {
+                    by: { label: "", value: "" },
+                    direction: ""
+                }
             };
 
         default:

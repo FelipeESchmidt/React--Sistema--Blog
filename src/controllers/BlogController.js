@@ -17,8 +17,8 @@ class BlogController {
 
     dateTransform(timestamp) {
         const date = new Date(timestamp);
-        const day = this.dateHelper(date.getDay(), 2);
-        const month = this.dateHelper(date.getMonth(), 2);
+        const day = this.dateHelper(date.getDate(), 2);
+        const month = this.dateHelper(date.getMonth()+1, 2);
         const year = this.dateHelper(date.getFullYear(), 4);
         const hours = this.dateHelper(date.getHours(), 2);
         const minutes = this.dateHelper(date.getMinutes(), 2);

@@ -7,6 +7,7 @@ import BlogContext from '../../contexts/BlogContext';
 
 import Aside from '../Aside';
 import Blog from '../Blog';
+import CreatePost from '../Forms/CreatePost';
 import SinglePost from '../Blog/SinglePost';
 
 function App() {
@@ -32,16 +33,13 @@ function App() {
             </Route>
             <Redirect from="/editPost" to="/" />
             <Route path="/createPost">
-              <h2>Create Post</h2>
+              <CreatePost />
             </Route>
             <Route path="/createCategory">
               <h2>Create Category</h2>
             </Route>
             <Route path="/:categoria">
               <Blog />
-            </Route>
-            <Route path="/">
-              <h1>404</h1>
             </Route>
           </Switch>
         </Wrapper>

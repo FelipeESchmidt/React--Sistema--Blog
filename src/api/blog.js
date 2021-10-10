@@ -38,7 +38,7 @@ export async function getFullPost(id) {
   }
 }
 
-function getPost(id){
+function getPost(id) {
   return new Promise(function (resolve, reject) {
     fetch(api + `/posts/${id}`, { headers })
       .then(response => response.json())
@@ -46,7 +46,7 @@ function getPost(id){
       .catch(reject)
   })
 }
-function getPostCommets(id){
+function getPostCommets(id) {
   return new Promise(function (resolve, reject) {
     fetch(api + `/posts/${id}/comments`, { headers })
       .then(response => response.json())
@@ -55,15 +55,15 @@ function getPostCommets(id){
   })
 }
 
-export function updateBook(book, shelf) {
+export function createPost(post) {
   return new Promise((resolve, reject) => {
-    fetch(api + '/books/' + book.id.toString(), {
-      method: 'PUT',
+    fetch(api + '/posts', {
+      method: 'POST',
       headers: {
         ...headers,
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({ shelf })
+      body: JSON.stringify({ ...post })
     }).then(response => response.json())
       .then(data => resolve(data))
       .catch(reject);
