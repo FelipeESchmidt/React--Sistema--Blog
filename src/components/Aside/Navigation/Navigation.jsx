@@ -31,14 +31,14 @@ function Navigation() {
     const categoriasSelector = useSelector(categories);
     const categorias = categoriasSelector.categories;
 
-    const context = useContext(BlogContext);
+    const blogHelper = useContext(BlogContext).blogHelper;
 
     useEffect(() => {
         if (categorias.length) {
-            dispatch(toggleNav(context.helper.findNavValue(categorias)+1));
+            dispatch(toggleNav(blogHelper.findNavValue(categorias)+1));
         }
 
-    }, [categorias, context, dispatch]);
+    }, [categorias, blogHelper, dispatch]);
 
     function handleChange(event, newValue) {
         if (!categorias[newValue - 1]) {

@@ -50,10 +50,10 @@ function PostBody({ isSmall = true }) {
     const classes = useStyles();
     const history = useHistory();
     const post = useContext(PostContext);
-    const context = useContext(BlogContext);
+    const blogHelper = useContext(BlogContext).blogHelper;
 
-    const transformDate = context.helper.dateTransform.bind(context.helper);
-    const limitText = context.helper.limitText.bind(context.helper);
+    const transformDate = blogHelper.dateTransform.bind(blogHelper);
+    const limitText = blogHelper.limitText.bind(blogHelper);
 
     function handleClickPost() {
         history.push(`/post/${post.id}`);

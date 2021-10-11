@@ -10,11 +10,10 @@ import { changeField, resetForms, validateField } from '../../../store/Form/Form
 import { newMessage } from '../../../store/Alert/Alert.actions';
 
 import BlogContext from '../../../contexts/BlogContext';
-import AlertMessage from '../../AlertMessage';
 
 import { TextField, Button, Container, Typography } from "@material-ui/core";
 
-const formId = "createPost";
+const formId = "createCategory";
 const formFields = ["category"];
 
 function CreateCategory() {
@@ -22,37 +21,34 @@ function CreateCategory() {
     const dispatch = useDispatch();
     const formReducer = useSelector(form);
 
-    const validator = useContext(BlogContext).validate;
-    
+    const formHelper = useContext(BlogContext).formHelper;
+
     useEffect(() => {
         dispatch(resetForms());
     }, [dispatch]);
-    
+
     function handleEnviar(event) {
         event.preventDefault();
         if (verifyNoErrors()) {
             const category = {
-                path: makePath(formReducer.forms[formId]['category']['value'])
+                path: formHelper.createPath(formReducer.forms[formId]['category']['value'])
             }
             formFields.map(field => category[field] = formReducer.forms[formId][field]['value']);
-            if(false){ /* Fazer o servidor aceitar nova categoria */
-                createCategory(category);
-                dispatch(fetchCategories);
-            }
-            const alert = {
-                message: `Category '${category.category}' sucessfuly created!`,
-                type: "success"
-            }
-            dispatch(newMessage(alert));
-            dispatch(resetForms());
+            sendAndReset(category);
         }
     }
 
-    function makePath(category){
-        let categoryPath;
-        categoryPath = category.replace(/[^a-zA-Z0-9]/g,'_');
-        categoryPath = categoryPath.toLowerCase();
-        return categoryPath;
+    function sendAndReset(category) {
+        if (false) { /* Fazer o servidor aceitar nova categoria */
+            createCategory(category);
+            dispatch(fetchCategories);
+        }
+        const alert = {
+            message: `Category '${category.category}' sucessfuly created!`,
+            type: "success"
+        }
+        dispatch(newMessage(alert));
+        dispatch(resetForms());
     }
 
     function verifyNoErrors() {
@@ -77,7 +73,7 @@ function CreateCategory() {
     }
 
     function handleBlur(event) {
-        const fieldValidate = validator.validate(event.target.value, event.target.name);
+        const fieldValidate = formHelper.validate(event.target.value, event.target.name);
         const info = {
             form: formId,
             id: event.target.id,
@@ -113,7 +109,6 @@ function CreateCategory() {
                     Create
                 </Button>
             </form>
-            <AlertMessage></AlertMessage>
         </Container>
     );
 }

@@ -10,6 +10,7 @@ import Blog from '../Blog';
 import CreatePost from '../Forms/CreatePost';
 import CreateCategory from '../Forms/CreateCategory';
 import SinglePost from '../Blog/SinglePost';
+import AlertMessage from '../AlertMessage';
 
 function App() {
 
@@ -17,9 +18,10 @@ function App() {
   const formController = new FormController();
 
   return (
-    <BlogContext.Provider value={{ helper: blogController, validate: formController }}>
+    <BlogContext.Provider value={{ blogHelper: blogController, formHelper: formController }}>
       <Router>
         <Aside />
+        <AlertMessage />
         <Wrapper>
           <Switch>
             <Route exact path="/">

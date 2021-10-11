@@ -1,8 +1,8 @@
 import React from 'react';
 
 const BlogContext = React.createContext({
-    helper: null,
-    validate: null
+    blogHelper: null,
+    formHelper: null
 });
 
 export default BlogContext;

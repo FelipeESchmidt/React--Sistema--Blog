@@ -34,6 +34,14 @@ class FormController {
         return fieldTested;
     }
 
+    createRandomId(){
+        return Math.random().toString(36).substr(2, 22) + Math.random().toString(36).substr(2, 22);
+    }
+
+    createPath(string){
+        return string.replace(/[^a-zA-Z0-9]/g,'_').toLowerCase();
+    }
+
 }
 
 export default FormController;

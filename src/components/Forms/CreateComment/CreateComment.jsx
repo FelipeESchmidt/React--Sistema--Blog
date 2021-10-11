@@ -1,26 +1,38 @@
+import { Button, makeStyles, TextField } from '@material-ui/core';
 import React, { useContext, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { createPost } from '../../../api/blog';
-
-import { fetchPosts } from '../../../store/Posts/Posts.actions';
-import { form } from '../../../store/Form/Form.selectors';
-import { categories } from '../../../store/Categories/Categories.selector';
-import { changeField, resetForms, validateField } from '../../../store/Form/Form.actions';
+import { createComment } from '../../../api/blog';
 
 import BlogContext from '../../../contexts/BlogContext';
 
-import { TextField, Button, Container, InputLabel, Select, FormControl, Typography } from "@material-ui/core";
 import { newMessage } from '../../../store/Alert/Alert.actions';
+import { changeField, resetForms, validateField } from '../../../store/Form/Form.actions';
+import { form } from '../../../store/Form/Form.selectors';
+import { fetchPosts } from '../../../store/Posts/Posts.actions';
+import { fetchPost } from '../../../store/SinglePost/SinglePost.actions';
 
-const formId = "createPost";
-const formFields = ["title", "body", "author", "category"];
+const useStyles = makeStyles((theme) => ({
+    formWrapper: {
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "top"
+    },
+    w35: {
+        width: "35%",
+        marginRight: "5px"
+    }
+}));
 
-function CreatePost() {
+const formId = "createComment";
+const formFields = ["author", "body"];
+
+function CreateComment({ postId }) {
+
+    const classes = useStyles();
 
     const dispatch = useDispatch();
     const formReducer = useSelector(form);
-    const categoriesReducer = useSelector(categories);
 
     const formHelper = useContext(BlogContext).formHelper;
 
@@ -32,21 +44,23 @@ function CreatePost() {
         event.preventDefault();
         if (verifyNoErrors()) {
             const randomId = formHelper.createRandomId();
-            const post = {
+            const comment = {
                 id: randomId,
-                timestamp: Date.now()
+                timestamp: Date.now(),
+                parentId: postId
             }
-            formFields.map(field => post[field] = formReducer.forms[formId][field]['value']);
-            sendAndReset(post);
+            formFields.map(field => comment[field] = formReducer.forms[formId][field]['value']);
+            sendAndReset(comment);
         }
     }
 
-    function sendAndReset(post) {
-        createPost(post);
+    function sendAndReset(comment) {
+        createComment(comment);
         dispatch(fetchPosts);
+        dispatch(fetchPost);
         dispatch(resetForms());
         const alert = {
-            message: 'Post sucessfuly created!',
+            message: 'Comment sucessfuly created!',
             type: "success"
         }
         dispatch(newMessage(alert));
@@ -86,26 +100,8 @@ function CreatePost() {
     }
 
     return (
-        <Container maxWidth="md">
-            <Typography variant="h4" style={{ margin: "80px 0 20px 0" }}>Criate new post</Typography>
-            <form onSubmit={handleEnviar} >
-                <TextField
-                    value={(formReducer.forms[formId].title) ? formReducer.forms[formId].title['value'] : ""}
-                    onBlur={handleBlur}
-                    error={(formReducer.forms[formId].title) ? formReducer.forms[formId].title['error'] : false}
-                    helperText={(formReducer.forms[formId].title) ? formReducer.forms[formId].title['errorMessage'] : ""}
-                    onChange={handleOnChange}
-                    id="title"
-                    name="text"
-                    label="Title"
-                    type="text"
-                    required
-                    variant="outlined"
-                    margin="normal"
-                    fullWidth
-                    autoComplete="off"
-                />
-
+        <form onSubmit={handleEnviar} >
+            <div className={classes.formWrapper}>
                 <TextField
                     value={(formReducer.forms[formId].author) ? formReducer.forms[formId].author['value'] : ""}
                     onBlur={handleBlur}
@@ -119,7 +115,7 @@ function CreatePost() {
                     required
                     variant="outlined"
                     margin="normal"
-                    fullWidth
+                    className={classes.w35}
                     autoComplete="off"
                 />
 
@@ -130,41 +126,22 @@ function CreatePost() {
                     helperText={(formReducer.forms[formId].body) ? formReducer.forms[formId].body['errorMessage'] : ""}
                     onChange={handleOnChange}
                     id="body"
-                    name="body"
-                    label="Body"
+                    name="text"
+                    label="Comment"
                     type="text"
                     required
                     variant="outlined"
                     margin="normal"
                     fullWidth
-                    multiline={true}
                     autoComplete="off"
                 />
+            </div>
 
-                <FormControl variant="outlined" fullWidth margin="normal">
-                    <InputLabel htmlFor="category">Category</InputLabel>
-                    <Select
-                        native
-                        value={(formReducer.forms[formId].category) ? formReducer.forms[formId].category['value'] : ""}
-                        onChange={handleOnChange}
-                        label="Category"
-                        required
-                        inputProps={{
-                            id: 'category',
-                            name: 'select',
-                        }}
-                    >
-                        <option aria-label="None" value="" disabled />
-                        {categoriesReducer.categories.map((category, index) => <option key={index} value={category.path}>{category.name}</option>)}
-                    </Select>
-                </FormControl>
-
-                <Button type="submit" variant="contained" color="primary" style={{ marginTop: "16px" }} >
-                    Create
-                </Button>
-            </form>
-        </Container>
+            <Button type="submit" variant="contained" color="primary" margin="normal" >
+                Comment
+            </Button>
+        </form>
     );
 }
 
-export default CreatePost;
+export default CreateComment;

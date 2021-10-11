@@ -85,6 +85,21 @@ export function createCategory(category) {
   });
 }
 
+export function createComment(comment) {
+  return new Promise((resolve, reject) => {
+    fetch(api + '/comments', {
+      method: 'POST',
+      headers: {
+        ...headers,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ ...comment })
+    }).then(response => response.json())
+      .then(data => resolve(data))
+      .catch(reject);
+  });
+}
+
 export function searchBooks(query) {
   return new Promise((resolve, reject) => {
     fetch(`${api}/search`, {

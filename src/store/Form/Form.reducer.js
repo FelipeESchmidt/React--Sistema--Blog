@@ -2,7 +2,9 @@ import { CHANGE_FIELD, RESET_FORM, VALIDATE_FIELD } from "./Form.types";
 
 const defaultObject = {
     forms: {
-        createPost: {}
+        createPost: {},
+        createCategory: {},
+        createComment: {}
     }
 }
 
