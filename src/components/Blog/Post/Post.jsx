@@ -41,7 +41,7 @@ function Post({ isSmall = true }) {
                 <PostVotes />
                 <div className={classes.post}>
                     <PostBody isSmall={isSmall} />
-                    <PostBottom />
+                    <PostBottom isSmall={isSmall} />
                 </div>
             </Paper>
         </Grid>

@@ -1,4 +1,3 @@
-import { Button, makeStyles, TextField } from '@material-ui/core';
 import React, { useContext, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -12,7 +11,13 @@ import { form } from '../../../store/Form/Form.selectors';
 import { fetchPosts } from '../../../store/Posts/Posts.actions';
 import { fetchPost } from '../../../store/SinglePost/SinglePost.actions';
 
+import { Button, makeStyles, TextField, Typography } from '@material-ui/core';
+
 const useStyles = makeStyles((theme) => ({
+    commentSection: {
+        padding: "3em 0 1em 0",
+        borderBottom: `1px solid ${theme.palette.grey[600]}`
+    },
     formWrapper: {
         display: "flex",
         justifyContent: "center",
@@ -100,47 +105,50 @@ function CreateComment({ postId }) {
     }
 
     return (
-        <form onSubmit={handleEnviar} >
-            <div className={classes.formWrapper}>
-                <TextField
-                    value={(formReducer.forms[formId].author) ? formReducer.forms[formId].author['value'] : ""}
-                    onBlur={handleBlur}
-                    error={(formReducer.forms[formId].author) ? formReducer.forms[formId].author['error'] : false}
-                    helperText={(formReducer.forms[formId].author) ? formReducer.forms[formId].author['errorMessage'] : ""}
-                    onChange={handleOnChange}
-                    id="author"
-                    name="text"
-                    label="Author"
-                    type="text"
-                    required
-                    variant="outlined"
-                    margin="normal"
-                    className={classes.w35}
-                    autoComplete="off"
-                />
+        <div className={classes.commentSection} >
+            <Typography variant="subtitle1">Comment on Post</Typography>
+            <form onSubmit={handleEnviar} >
+                <div className={classes.formWrapper}>
+                    <TextField
+                        value={(formReducer.forms[formId].author) ? formReducer.forms[formId].author['value'] : ""}
+                        onBlur={handleBlur}
+                        error={(formReducer.forms[formId].author) ? formReducer.forms[formId].author['error'] : false}
+                        helperText={(formReducer.forms[formId].author) ? formReducer.forms[formId].author['errorMessage'] : ""}
+                        onChange={handleOnChange}
+                        id="author"
+                        name="text"
+                        label="Author"
+                        type="text"
+                        required
+                        variant="outlined"
+                        margin="normal"
+                        className={classes.w35}
+                        autoComplete="off"
+                    />
 
-                <TextField
-                    value={(formReducer.forms[formId].body) ? formReducer.forms[formId].body['value'] : ""}
-                    onBlur={handleBlur}
-                    error={(formReducer.forms[formId].body) ? formReducer.forms[formId].body['error'] : false}
-                    helperText={(formReducer.forms[formId].body) ? formReducer.forms[formId].body['errorMessage'] : ""}
-                    onChange={handleOnChange}
-                    id="body"
-                    name="text"
-                    label="Comment"
-                    type="text"
-                    required
-                    variant="outlined"
-                    margin="normal"
-                    fullWidth
-                    autoComplete="off"
-                />
-            </div>
+                    <TextField
+                        value={(formReducer.forms[formId].body) ? formReducer.forms[formId].body['value'] : ""}
+                        onBlur={handleBlur}
+                        error={(formReducer.forms[formId].body) ? formReducer.forms[formId].body['error'] : false}
+                        helperText={(formReducer.forms[formId].body) ? formReducer.forms[formId].body['errorMessage'] : ""}
+                        onChange={handleOnChange}
+                        id="body"
+                        name="text"
+                        label="Comment"
+                        type="text"
+                        required
+                        variant="outlined"
+                        margin="normal"
+                        fullWidth
+                        autoComplete="off"
+                    />
+                </div>
 
-            <Button type="submit" variant="contained" color="primary" margin="normal" >
-                Comment
-            </Button>
-        </form>
+                <Button type="submit" variant="contained" color="primary" margin="normal" >
+                    Comment
+                </Button>
+            </form>
+        </div>
     );
 }
 

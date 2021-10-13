@@ -2,8 +2,8 @@ import React, { useContext } from 'react';
 
 import { useHistory } from 'react-router';
 
-import { Button, makeStyles, Typography } from '@material-ui/core';
-import { Comment as CommentIcon, Edit as EditIcon } from '@material-ui/icons';
+import { Button, makeStyles, Typography, IconButton } from '@material-ui/core';
+import { Comment as CommentIcon, Edit as EditIcon, Delete as DeleteIcon } from '@material-ui/icons';
 
 import PostContext from '../../../../contexts/PostContext';
 
@@ -20,9 +20,25 @@ const useStyles = makeStyles((theme) => ({
         justifyContent: "center",
         color: "inherit"
     },
-    edit: {
-        width: "35%",
+    editBig: {
+        width: "20%",
         color: "inherit"
+    },
+    editSmall: {
+        width: "20%",
+        color: "inherit",
+        borderRadius: "0",
+        padding: "0"
+    },
+    deleteBig: {
+        width: "20%",
+        color: "inherit"
+    },
+    deleteSmall: {
+        width: "20%",
+        color: "inherit",
+        borderRadius: "0",
+        padding: "0"
     },
     icon: {
         marginRight: "0.4em",
@@ -31,13 +47,13 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-function PostBottom() {
+function PostBottom({ isSmall = true }) {
 
     const classes = useStyles();
     const history = useHistory();
     const post = useContext(PostContext);
 
-    function handleEdit(){
+    function handleEdit() {
         history.push(`/editPost/${post.id}`);
     }
 
@@ -47,13 +63,40 @@ function PostBottom() {
                 <CommentIcon className={classes.icon} />
                 {post.commentCount} {(post.commentCount < 1) ? 'comment' : 'comments'}
             </Typography>
-            <Button 
-                startIcon={<EditIcon />}
-                onClick={handleEdit}
-                className={classes.edit}
-            >
-                Edit
-            </Button>
+
+            {isSmall
+                ? <IconButton
+                    onClick={handleEdit}
+                    className={classes.editSmall}
+                >
+                    <EditIcon />
+                </IconButton>
+                : <Button
+                    startIcon={<EditIcon />}
+                    onClick={handleEdit}
+                    className={classes.editBig}
+                >
+                    Edit
+                </Button>
+            }
+
+            {isSmall
+                ? <IconButton
+                    onClick={()=>("")}
+                    className={classes.deleteSmall}
+                >
+                    <DeleteIcon />
+                </IconButton>
+                : <Button
+                    startIcon={<DeleteIcon />}
+                    onClick={()=>("")}
+                    className={classes.deleteBig}
+                >
+                    Delete
+                </Button>
+            }
+
+
         </div>
     );
 }

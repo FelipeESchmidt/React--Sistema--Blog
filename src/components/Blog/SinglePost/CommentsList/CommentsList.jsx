@@ -8,7 +8,7 @@ import Comment from '../Comment';
 
 const useStyles = makeStyles((theme) => ({
     root: {
-        marginTop: "20px"
+        padding: "2em 0"
     },
 }));
 
