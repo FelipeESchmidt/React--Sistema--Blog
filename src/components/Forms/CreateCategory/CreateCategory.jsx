@@ -41,7 +41,9 @@ function CreateCategory() {
     function sendAndReset(category) {
         if (false) { /* Fazer o servidor aceitar nova categoria */
             createCategory(category);
-            dispatch(fetchCategories);
+            setTimeout(() => {
+                dispatch(fetchCategories);
+            }, 100);
         }
         const alert = {
             message: `Category '${category.category}' sucessfuly created!`,

@@ -61,14 +61,15 @@ function CreateComment({ postId }) {
 
     function sendAndReset(comment) {
         createComment(comment);
-        dispatch(fetchPosts);
-        dispatch(fetchPost);
-        dispatch(resetForms());
         const alert = {
             message: 'Comment sucessfuly created!',
             type: "success"
         }
         dispatch(newMessage(alert));
+        setTimeout(() => {
+            dispatch(fetchPost);
+            dispatch(fetchPosts);
+        }, 100);
     }
 
     function verifyNoErrors() {

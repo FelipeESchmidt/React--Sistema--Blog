@@ -43,13 +43,15 @@ function CreatePost() {
 
     function sendAndReset(post) {
         createPost(post);
-        dispatch(fetchPosts);
         dispatch(resetForms());
         const alert = {
             message: 'Post sucessfuly created!',
             type: "success"
         }
         dispatch(newMessage(alert));
+        setTimeout(() => {
+            dispatch(fetchPosts);
+        }, 100);
     }
 
     function verifyNoErrors() {
