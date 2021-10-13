@@ -12,6 +12,7 @@ import { makeStyles } from '@material-ui/core';
 import Loading from '../../Loading';
 import Post from '../Post';
 import CreateComment from '../../Forms/CreateComment';
+import CommentsList from './CommentsList';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -44,10 +45,8 @@ function SinglePost() {
             <PostContext.Provider value={post.content} >
                 <Post isSmall={false}></Post>
             </PostContext.Provider>
-            <CreateComment postId={id}></CreateComment>
-            {post.comments.map(comment => {
-                return <p key={comment.id}>{comment.body}</p>
-            })}
+            <CreateComment postId={id} />
+            <CommentsList commentsList={post.comments} />
         </div>
     );
 }
