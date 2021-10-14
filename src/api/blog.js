@@ -70,6 +70,21 @@ export function createPost(post) {
   });
 }
 
+export function editPost(post, postId) {
+  return new Promise((resolve, reject) => {
+    fetch(api + `/posts/${postId}`, {
+      method: 'PUT',
+      headers: {
+        ...headers,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ ...post })
+    }).then(response => response.json())
+      .then(data => resolve(data))
+      .catch(reject);
+  });
+}
+
 export function createCategory(category) {
   return new Promise((resolve, reject) => {
     fetch(api + '/categories', {

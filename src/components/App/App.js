@@ -11,6 +11,7 @@ import CreatePost from '../Forms/CreatePost';
 import CreateCategory from '../Forms/CreateCategory';
 import SinglePost from '../Blog/SinglePost';
 import AlertMessage from '../AlertMessage';
+import EditPost from '../Forms/EditPost/EditPost';
 
 function App() {
 
@@ -32,7 +33,7 @@ function App() {
             </Route>
             <Redirect from="/post" to="/" />
             <Route path="/editPost/:id">
-              <h2>Edit Post</h2>
+              <EditPost />
             </Route>
             <Redirect from="/editPost" to="/" />
             <Route path="/createPost">

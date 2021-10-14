@@ -33,7 +33,6 @@ const formId = "createComment";
 const formFields = ["author", "body"];
 
 function CreateComment({ postId }) {
-
     const classes = useStyles();
 
     const dispatch = useDispatch();

@@ -4,7 +4,9 @@ const defaultObject = {
     forms: {
         createPost: {},
         createCategory: {},
-        createComment: {}
+        createComment: {},
+        editPost: {},
+        editComment: {}
     }
 }
 
