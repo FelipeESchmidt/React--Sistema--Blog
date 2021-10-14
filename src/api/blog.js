@@ -100,6 +100,66 @@ export function createComment(comment) {
   });
 }
 
+export function voteInPost(direction, postId) {
+  return new Promise((resolve, reject) => {
+    fetch(api + `/posts/${postId}`, {
+      method: 'POST',
+      headers: {
+        ...headers,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ option: direction })
+    }).then(response => response.json())
+      .then(data => resolve(data))
+      .catch(reject);
+  });
+}
+
+export function voteInComment(direction, commentId) {
+  return new Promise((resolve, reject) => {
+    fetch(api + `/comments/${commentId}`, {
+      method: 'POST',
+      headers: {
+        ...headers,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ option: direction })
+    }).then(response => response.json())
+      .then(data => resolve(data))
+      .catch(reject);
+  });
+}
+
+export function removePost(postId) {
+  return new Promise((resolve, reject) => {
+    fetch(api + `/posts/${postId}`, {
+      method: 'DELETE',
+      headers: {
+        ...headers,
+        'Content-Type': 'application/json'
+      },
+      body: ""
+    }).then(response => response.json())
+      .then(data => resolve(data))
+      .catch(reject);
+  });
+}
+
+export function removeComment(commentId) {
+  return new Promise((resolve, reject) => {
+    fetch(api + `/comments/${commentId}`, {
+      method: 'DELETE',
+      headers: {
+        ...headers,
+        'Content-Type': 'application/json'
+      },
+      body: ""
+    }).then(response => response.json())
+      .then(data => resolve(data))
+      .catch(reject);
+  });
+}
+
 export function searchBooks(query) {
   return new Promise((resolve, reject) => {
     fetch(`${api}/search`, {

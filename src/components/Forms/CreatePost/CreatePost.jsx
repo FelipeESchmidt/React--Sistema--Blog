@@ -51,7 +51,7 @@ function CreatePost() {
         dispatch(newMessage(alert));
         setTimeout(() => {
             dispatch(fetchPosts);
-        }, 100);
+        }, 200);
     }
 
     function verifyNoErrors() {

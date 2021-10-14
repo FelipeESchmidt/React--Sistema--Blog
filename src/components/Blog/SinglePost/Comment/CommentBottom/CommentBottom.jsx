@@ -6,6 +6,11 @@ import { Button, makeStyles } from '@material-ui/core';
 import { Edit as EditIcon, Delete as DeleteIcon } from '@material-ui/icons';
 
 import CommentContext from '../../../../../contexts/CommentContext';
+import { removeComment } from '../../../../../api/blog';
+import { useDispatch } from 'react-redux';
+import { fetchPosts } from '../../../../../store/Posts/Posts.actions';
+import { fetchPost } from '../../../../../store/SinglePost/SinglePost.actions';
+import { newMessage } from '../../../../../store/Alert/Alert.actions';
 
 const useStyles = makeStyles((theme) => ({
     bottom: {
@@ -28,9 +33,23 @@ function CommentBottom() {
     const classes = useStyles();
     const history = useHistory();
     const comment = useContext(CommentContext);
+    const dispatch = useDispatch();
 
     function handleEdit(){
         history.push(`/editComment/${comment.id}`);
+    }
+
+    function handleRemove() {
+        removeComment(comment.id);
+        const alert = {
+            message: `Comment sucessfuly deleted!`,
+            type: "success"
+        }
+        dispatch(newMessage(alert));
+        setTimeout(() => {
+            dispatch(fetchPosts);
+            dispatch(fetchPost);
+        }, 200);
     }
 
     return (
@@ -44,7 +63,7 @@ function CommentBottom() {
             </Button>
             <Button 
                 startIcon={<DeleteIcon />}
-                onClick={handleEdit}
+                onClick={handleRemove}
                 className={classes.delete}
             >
                 Delete

@@ -43,7 +43,7 @@ function CreateCategory() {
             createCategory(category);
             setTimeout(() => {
                 dispatch(fetchCategories);
-            }, 100);
+            }, 200);
         }
         const alert = {
             message: `Category '${category.category}' sucessfuly created!`,

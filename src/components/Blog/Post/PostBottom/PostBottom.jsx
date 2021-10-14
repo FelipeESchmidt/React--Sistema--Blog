@@ -1,11 +1,16 @@
 import React, { useContext } from 'react';
-
+import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router';
+
+import { removePost } from '../../../../api/blog';
+
+import PostContext from '../../../../contexts/PostContext';
+
+import { fetchPosts } from '../../../../store/Posts/Posts.actions';
+import { newMessage } from '../../../../store/Alert/Alert.actions';
 
 import { Button, makeStyles, Typography, IconButton } from '@material-ui/core';
 import { Comment as CommentIcon, Edit as EditIcon, Delete as DeleteIcon } from '@material-ui/icons';
-
-import PostContext from '../../../../contexts/PostContext';
 
 const useStyles = makeStyles((theme) => ({
     bottom: {
@@ -52,9 +57,22 @@ function PostBottom({ isSmall = true }) {
     const classes = useStyles();
     const history = useHistory();
     const post = useContext(PostContext);
+    const dispatch = useDispatch();
 
     function handleEdit() {
         history.push(`/editPost/${post.id}`);
+    }
+
+    function handleRemove() {
+        removePost(post.id);
+        const alert = {
+            message: `Post ${post.title} sucessfuly deleted!`,
+            type: "success"
+        }
+        dispatch(newMessage(alert));
+        setTimeout(() => {
+            dispatch(fetchPosts);
+        }, 200);
     }
 
     return (
@@ -82,14 +100,14 @@ function PostBottom({ isSmall = true }) {
 
             {isSmall
                 ? <IconButton
-                    onClick={()=>("")}
+                    onClick={handleRemove}
                     className={classes.deleteSmall}
                 >
                     <DeleteIcon />
                 </IconButton>
                 : <Button
                     startIcon={<DeleteIcon />}
-                    onClick={()=>("")}
+                    onClick={handleRemove}
                     className={classes.deleteBig}
                 >
                     Delete

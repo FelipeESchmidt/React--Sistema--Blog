@@ -69,7 +69,7 @@ function CreateComment({ postId }) {
         setTimeout(() => {
             dispatch(fetchPost);
             dispatch(fetchPosts);
-        }, 100);
+        }, 200);
     }
 
     function verifyNoErrors() {

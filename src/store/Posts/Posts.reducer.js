@@ -10,6 +10,7 @@ const defaultObject = {
         },
         direction: ""
     },
+    filter: "",
     loading: false
 }
 
@@ -22,7 +23,8 @@ export default function reducer(state = defaultObject, action) {
                 order: {
                     by: { label: "", value: "" },
                     direction: ""
-                }
+                },
+                filter: action.payload
             };
 
         case REMOVE_FILTER:
@@ -32,14 +34,25 @@ export default function reducer(state = defaultObject, action) {
                 order: {
                     by: { label: "", value: "" },
                     direction: ""
-                }
+                },
+                filter: ""
             };
 
         case REQUEST:
             return { ...state, loading: true };
 
         case LOAD_API:
-            return { ...state, allPosts: action.payload, visiblePosts: action.payload, loading: false };
+            const filter = state.filter;
+            const orderBy = state.order.by.value;
+            let visiblePosts = action.payload;
+            if(filter) visiblePosts = visiblePosts.filter(post => post['category'] === filter);
+            if(orderBy) visiblePosts = visiblePosts.sort((p1, p2) => (p1[orderBy] > p2[orderBy]) ? -1 : 1);
+            return {
+                ...state,
+                allPosts: action.payload,
+                visiblePosts: visiblePosts,
+                loading: false
+            };
 
         case ORDER:
             return {

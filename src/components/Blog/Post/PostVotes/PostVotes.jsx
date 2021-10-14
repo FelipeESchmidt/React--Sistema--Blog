@@ -4,6 +4,10 @@ import { makeStyles, Typography } from '@material-ui/core';
 import { ArrowUpward as IconUP, ArrowDownward as IconDown } from '@material-ui/icons';
 
 import PostContext from '../../../../contexts/PostContext';
+import { voteInPost } from '../../../../api/blog';
+import { useDispatch } from 'react-redux';
+import { newMessage } from '../../../../store/Alert/Alert.actions';
+import { fetchPosts } from '../../../../store/Posts/Posts.actions';
 
 const useStyles = makeStyles((theme) => ({
     votes: {
@@ -37,13 +41,26 @@ const useStyles = makeStyles((theme) => ({
 function PostVotes() {
 
     const classes = useStyles();
+    const dispatch = useDispatch();
     const post = useContext(PostContext);
+
+    function handleVote(direction){
+        voteInPost(direction, post.id);
+        const alert = {
+            message: `Post ${post.title} sucessfuly voted!`,
+            type: "success"
+        }
+        dispatch(newMessage(alert));
+        setTimeout(() => {
+            dispatch(fetchPosts);
+        }, 200);
+    }
 
     return (
         <div className={classes.votes}>
-            <IconUP className={`${classes.voteButton} ${classes.voteUP}`} />
+            <IconUP className={`${classes.voteButton} ${classes.voteUP}`} onClick={() => handleVote("upVote")} />
             <Typography className={classes.voteValue} variant="subtitle2">{post.voteScore}</Typography>
-            <IconDown className={`${classes.voteButton} ${classes.voteDOWN}`} />
+            <IconDown className={`${classes.voteButton} ${classes.voteDOWN}`} onClick={() => handleVote("downVote")} />
         </div>
     );
 }
