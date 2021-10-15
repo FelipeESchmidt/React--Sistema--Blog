@@ -85,6 +85,21 @@ export function editPost(post, postId) {
   });
 }
 
+export function editComment(comment, commentId) {
+  return new Promise((resolve, reject) => {
+    fetch(api + `/comments/${commentId}`, {
+      method: 'PUT',
+      headers: {
+        ...headers,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ ...comment })
+    }).then(response => response.json())
+      .then(data => resolve(data))
+      .catch(reject);
+  });
+}
+
 export function createCategory(category) {
   return new Promise((resolve, reject) => {
     fetch(api + '/categories', {

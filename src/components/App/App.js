@@ -11,7 +11,8 @@ import CreatePost from '../Forms/CreatePost';
 import CreateCategory from '../Forms/CreateCategory';
 import SinglePost from '../Blog/SinglePost';
 import AlertMessage from '../AlertMessage';
-import EditPost from '../Forms/EditPost/EditPost';
+import EditPost from '../Forms/EditPost';
+import EditComment from '../Forms/EditComment';
 
 function App() {
 
@@ -28,6 +29,10 @@ function App() {
             <Route exact path="/">
               <Blog />
             </Route>
+            <Route path="/post/:postId/editComment/:commentId">
+              <EditComment />
+            </Route>
+            <Redirect from="/post/:postId/editComment" to="/" />
             <Route path="/post/:id">
               <SinglePost />
             </Route>

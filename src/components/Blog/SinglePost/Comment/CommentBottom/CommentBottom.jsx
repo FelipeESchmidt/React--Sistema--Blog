@@ -36,7 +36,8 @@ function CommentBottom() {
     const dispatch = useDispatch();
 
     function handleEdit(){
-        history.push(`/editComment/${comment.id}`);
+        const postPath = history.location.pathname;
+        history.push(`${postPath}/editComment/${comment.id}`);
     }
 
     function handleRemove() {
