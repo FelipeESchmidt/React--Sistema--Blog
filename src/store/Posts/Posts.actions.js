@@ -62,3 +62,8 @@ export async function fetchPosts(dispatch) {
     const response = await getPosts();
     dispatch(loadAPI(response));
 }
+
+export async function refreshPosts(dispatch) {
+    const response = await getPosts();
+    dispatch(loadAPI(response));
+}

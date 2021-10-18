@@ -7,7 +7,8 @@ import PostContext from '../../../../contexts/PostContext';
 import { voteInPost } from '../../../../api/blog';
 import { useDispatch } from 'react-redux';
 import { newMessage } from '../../../../store/Alert/Alert.actions';
-import { fetchPosts } from '../../../../store/Posts/Posts.actions';
+import { refreshPosts } from '../../../../store/Posts/Posts.actions';
+import { refreshPost } from '../../../../store/SinglePost/SinglePost.actions';
 
 const useStyles = makeStyles((theme) => ({
     votes: {
@@ -38,7 +39,7 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-function PostVotes() {
+function PostVotes({isSmall}) {
 
     const classes = useStyles();
     const dispatch = useDispatch();
@@ -52,7 +53,8 @@ function PostVotes() {
         }
         dispatch(newMessage(alert));
         setTimeout(() => {
-            dispatch(fetchPosts);
+            if(!isSmall) dispatch(refreshPost);
+            dispatch(refreshPosts);
         }, 200);
     }
 

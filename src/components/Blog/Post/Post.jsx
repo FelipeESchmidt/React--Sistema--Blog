@@ -38,7 +38,7 @@ function Post({ isSmall = true }) {
     return (
         <Grid item>
             <Paper className={(isSmall) ? classes.paperSmall : classes.paperBig}>
-                <PostVotes />
+                <PostVotes isSmall={isSmall} />
                 <div className={classes.post}>
                     <PostBody isSmall={isSmall} />
                     <PostBottom isSmall={isSmall} />

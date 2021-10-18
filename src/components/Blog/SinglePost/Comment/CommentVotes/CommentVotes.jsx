@@ -7,7 +7,7 @@ import CommentContext from '../../../../../contexts/CommentContext';
 import { useDispatch } from 'react-redux';
 import { voteInComment } from '../../../../../api/blog';
 import { newMessage } from '../../../../../store/Alert/Alert.actions';
-import { fetchPost } from '../../../../../store/SinglePost/SinglePost.actions';
+import { refreshPost } from '../../../../../store/SinglePost/SinglePost.actions';
 
 const useStyles = makeStyles((theme) => ({
     votes: {
@@ -52,7 +52,7 @@ function CommentVotes() {
         }
         dispatch(newMessage(alert));
         setTimeout(() => {
-            dispatch(fetchPost);
+            dispatch(refreshPost);
         }, 200);
     }
 

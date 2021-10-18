@@ -8,8 +8,8 @@ import BlogContext from '../../../contexts/BlogContext';
 import { newMessage } from '../../../store/Alert/Alert.actions';
 import { changeField, resetForms, validateField } from '../../../store/Form/Form.actions';
 import { form } from '../../../store/Form/Form.selectors';
-import { fetchPosts } from '../../../store/Posts/Posts.actions';
-import { fetchPost } from '../../../store/SinglePost/SinglePost.actions';
+import { refreshPosts } from '../../../store/Posts/Posts.actions';
+import { refreshPost } from '../../../store/SinglePost/SinglePost.actions';
 
 import { Button, makeStyles, TextField, Typography } from '@material-ui/core';
 
@@ -60,14 +60,15 @@ function CreateComment({ postId }) {
 
     function sendAndReset(comment) {
         createComment(comment);
+        dispatch(resetForms());
         const alert = {
             message: 'Comment sucessfuly created!',
             type: "success"
         }
         dispatch(newMessage(alert));
         setTimeout(() => {
-            dispatch(fetchPost);
-            dispatch(fetchPosts);
+            dispatch(refreshPost);
+            dispatch(refreshPosts);
         }, 200);
     }
 

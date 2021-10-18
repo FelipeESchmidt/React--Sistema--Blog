@@ -28,3 +28,9 @@ export async function fetchPost(dispatch, getState) {
     const response = await getFullPost(id);
     dispatch(loadAPI(response));
 }
+
+export async function refreshPost(dispatch, getState) {
+    const id = getState().singlePost.id;
+    const response = await getFullPost(id);
+    dispatch(loadAPI(response));
+}

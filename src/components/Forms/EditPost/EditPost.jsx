@@ -39,7 +39,7 @@ function EditPost() {
     }, [dispatch, id]);
 
     useEffect(() => {
-        if (!sincronized && post.content.id) {
+        if (!sincronized && post.content.id === id) {
             setSincronized(true);
             formFields.forEach(field => {
                 const info = {

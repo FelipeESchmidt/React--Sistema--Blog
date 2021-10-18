@@ -64,6 +64,7 @@ function EditComment() {
 
     function sendAndReset(comment) {
         editComment(comment, commentId);
+        dispatch(resetForms());
         const alert = {
             message: 'Comment sucessfuly edited!',
             type: "success"
