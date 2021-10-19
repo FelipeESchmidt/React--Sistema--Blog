@@ -11,8 +11,9 @@ import { form } from '../../../store/Form/Form.selectors';
 import { refreshPosts } from '../../../store/Posts/Posts.actions';
 import { refreshPost } from '../../../store/SinglePost/SinglePost.actions';
 
-import { Button, makeStyles, TextField, Typography } from '@material-ui/core';
 import useForm from '../../../hooks/useForm';
+import FormInput from '../FormInput';
+import { Button, makeStyles, Typography } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
     commentSection: {
@@ -23,15 +24,23 @@ const useStyles = makeStyles((theme) => ({
         display: "flex",
         justifyContent: "center",
         alignItems: "top"
-    },
-    w35: {
-        width: "35%",
-        marginRight: "5px"
     }
 }));
 
 const formId = "createComment";
 const formFields = ["author", "body"];
+const formFieldsOptions = [{
+    id: "author",
+    name: "text",
+    label: "Author",
+    type: "text",
+    style: { width: "35%", marginRight: "5px" }
+}, {
+    id: "body",
+    name: "text",
+    label: "Comment",
+    type: "text"
+}];
 
 function CreateComment({ postId }) {
 
@@ -40,6 +49,7 @@ function CreateComment({ postId }) {
     const dispatch = useDispatch();
     const formReducer = useSelector(form);
 
+    /*eslint no-unused-vars: "off"*/
     const [verifyNoErrors, handleOnChange, handleBlur] = useForm();
 
     const formHelper = useContext(BlogContext).formHelper;
@@ -80,52 +90,21 @@ function CreateComment({ postId }) {
         return verifyNoErrors(formReducer, formId, formFields);
     }
 
-    function change(event) {
-        handleOnChange(event, formId, dispatch, changeField);
-    }
-
-    function blur(event) {
-        handleBlur(event, formId, formHelper, dispatch, validateField);
-    }
-
     return (
         <div className={classes.commentSection} >
             <Typography variant="subtitle1">Comment on Post</Typography>
             <form onSubmit={handleEnviar} >
                 <div className={classes.formWrapper}>
-                    <TextField
-                        value={(formReducer.forms[formId].author) ? formReducer.forms[formId].author['value'] : ""}
-                        onBlur={blur}
-                        error={(formReducer.forms[formId].author) ? formReducer.forms[formId].author['error'] : false}
-                        helperText={(formReducer.forms[formId].author) ? formReducer.forms[formId].author['errorMessage'] : ""}
-                        onChange={change}
-                        id="author"
-                        name="text"
-                        label="Author"
-                        type="text"
-                        required
-                        variant="outlined"
-                        margin="normal"
-                        className={classes.w35}
-                        autoComplete="off"
-                    />
 
-                    <TextField
-                        value={(formReducer.forms[formId].body) ? formReducer.forms[formId].body['value'] : ""}
-                        onBlur={blur}
-                        error={(formReducer.forms[formId].body) ? formReducer.forms[formId].body['error'] : false}
-                        helperText={(formReducer.forms[formId].body) ? formReducer.forms[formId].body['errorMessage'] : ""}
-                        onChange={change}
-                        id="body"
-                        name="text"
-                        label="Comment"
-                        type="text"
-                        required
-                        variant="outlined"
-                        margin="normal"
-                        fullWidth
-                        autoComplete="off"
-                    />
+                    {formFields.map((field, index) => (
+                        <FormInput
+                            key={index}
+                            formId={formId}
+                            field={field}
+                            fieldProps={formFieldsOptions[index]}
+                        />
+                    ))}
+                    
                 </div>
 
                 <Button type="submit" variant="contained" color="primary" margin="normal" >

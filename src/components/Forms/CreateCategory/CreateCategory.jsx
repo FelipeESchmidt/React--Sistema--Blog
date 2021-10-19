@@ -5,23 +5,33 @@ import { createCategory } from '../../../api/blog';
 
 import { fetchCategories } from '../../../store/Categories/Categories.actions';
 import { form } from '../../../store/Form/Form.selectors';
-import { changeField, resetForms, validateField } from '../../../store/Form/Form.actions';
+import { resetForms } from '../../../store/Form/Form.actions';
 
 import { newMessage } from '../../../store/Alert/Alert.actions';
 
 import BlogContext from '../../../contexts/BlogContext';
 
-import { TextField, Button, Container, Typography } from "@material-ui/core";
 import useForm from '../../../hooks/useForm';
+import { Button, Container, Typography } from "@material-ui/core";
+import FormInput from '../FormInput';
 
 const formId = "createCategory";
 const formFields = ["name"];
+const formFieldsOptions = [{
+    id: "name",
+    name: "text",
+    label: "Category",
+    type: "text"
+}];
+
+
 
 function CreateCategory() {
 
     const dispatch = useDispatch();
     const formReducer = useSelector(form);
 
+    /*eslint no-unused-vars: "off"*/
     const [verifyNoErrors, handleOnChange, handleBlur] = useForm();
 
     const formHelper = useContext(BlogContext).formHelper;
@@ -58,34 +68,19 @@ function CreateCategory() {
         return verifyNoErrors(formReducer, formId, formFields);
     }
 
-    function change(event) {
-        handleOnChange(event, formId, dispatch, changeField);
-    }
-
-    function blur(event) {
-        handleBlur(event, formId, formHelper, dispatch, validateField);
-    }
-
     return (
         <Container maxWidth="md">
             <Typography variant="h4" style={{ margin: "80px 0 20px 0" }}>Criate new category</Typography>
             <form onSubmit={handleEnviar} >
-                <TextField
-                    value={(formReducer.forms[formId].name) ? formReducer.forms[formId].name['value'] : ""}
-                    onBlur={blur}
-                    error={(formReducer.forms[formId].name) ? formReducer.forms[formId].name['error'] : false}
-                    helperText={(formReducer.forms[formId].name) ? formReducer.forms[formId].name['errorMessage'] : ""}
-                    onChange={change}
-                    id="name"
-                    name="text"
-                    label="Category"
-                    type="text"
-                    required
-                    variant="outlined"
-                    margin="normal"
-                    fullWidth
-                    autoComplete="off"
-                />
+                
+                {formFields.map((field, index) => (
+                    <FormInput
+                        key={index}
+                        formId={formId}
+                        field={field}
+                        fieldProps={formFieldsOptions[index]}    
+                    />
+                ))}
 
                 <Button type="submit" variant="contained" color="primary" style={{ marginTop: "16px" }} >
                     Create

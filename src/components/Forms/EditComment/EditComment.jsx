@@ -16,9 +16,16 @@ import BlogContext from '../../../contexts/BlogContext';
 
 import { Button, Container, TextField, Typography } from '@material-ui/core';
 import useForm from '../../../hooks/useForm';
+import FormInput from '../FormInput';
 
 const formId = "createComment";
 const formFields = ["body"];
+const formFieldsOptions = [{
+    id: "body",
+    name: "text",
+    label: "Comment",
+    type: "text"
+}];
 
 function EditComment() {
 
@@ -26,7 +33,8 @@ function EditComment() {
     const { postId, commentId } = useParams();
     const formReducer = useSelector(form);
     const post = useSelector(singlePost);
-    
+
+    /*eslint no-unused-vars: "off"*/
     const [verifyNoErrors, handleOnChange, handleBlur] = useForm();
 
     const formHelper = useContext(BlogContext).formHelper;
@@ -83,35 +91,19 @@ function EditComment() {
         return verifyNoErrors(formReducer, formId, formFields);
     }
 
-    function change(event) {
-        handleOnChange(event, formId, dispatch, changeField);
-    }
-
-    function blur(event) {
-        handleBlur(event, formId, formHelper, dispatch, validateField);
-    }
-
     return (
         <Container maxWidth="md">
             <Typography variant="h4" style={{ margin: "80px 0 20px 0" }}>Editing Comment</Typography>
             <form onSubmit={handleEnviar} >
 
-                <TextField
-                    value={(formReducer.forms[formId].body) ? formReducer.forms[formId].body['value'] : ""}
-                    onBlur={blur}
-                    error={(formReducer.forms[formId].body) ? formReducer.forms[formId].body['error'] : false}
-                    helperText={(formReducer.forms[formId].body) ? formReducer.forms[formId].body['errorMessage'] : ""}
-                    onChange={change}
-                    id="body"
-                    name="text"
-                    label="Comment"
-                    type="text"
-                    required
-                    variant="outlined"
-                    margin="normal"
-                    fullWidth
-                    autoComplete="off"
-                />
+                {formFields.map((field, index) => (
+                    <FormInput
+                        key={index}
+                        formId={formId}
+                        field={field}
+                        fieldProps={formFieldsOptions[index]}
+                    />
+                ))}
 
                 <Button type="submit" variant="contained" color="primary" margin="normal" >
                     Edit

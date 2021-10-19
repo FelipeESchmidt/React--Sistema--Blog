@@ -17,9 +17,22 @@ import { TextField, Button, Container, Typography } from "@material-ui/core";
 import { singlePost } from '../../../store/SinglePost/SinglePost.selectors';
 import Loading from '../../Loading';
 import useForm from '../../../hooks/useForm';
+import FormInput from '../FormInput';
 
 const formId = "editPost";
 const formFields = ["title", "body"];
+const formFieldsOptions = [{
+    id: "title",
+    name: "text",
+    label: "Title",
+    type: "text"
+}, {
+    id: "body",
+    name: "body",
+    label: "Body",
+    type: "text",
+    multiline: true
+}];
 
 function EditPost() {
 
@@ -27,7 +40,8 @@ function EditPost() {
     const { id } = useParams();
     const formReducer = useSelector(form);
     const post = useSelector(singlePost);
-        
+
+    /*eslint no-unused-vars: "off"*/
     const [verifyNoErrors, handleOnChange, handleBlur] = useForm();
 
     const formHelper = useContext(BlogContext).formHelper;
@@ -82,14 +96,6 @@ function EditPost() {
         return verifyNoErrors(formReducer, formId, formFields);
     }
 
-    function change(event) {
-        handleOnChange(event, formId, dispatch, changeField);
-    }
-
-    function blur(event) {
-        handleBlur(event, formId, formHelper, dispatch, validateField);
-    }
-
     if (post.loading || post.id === "") {
         return <Loading position="middle" padding={1}></Loading>
     }
@@ -98,40 +104,15 @@ function EditPost() {
         <Container maxWidth="md">
             <Typography variant="h4" style={{ margin: "80px 0 20px 0" }}>Editing post</Typography>
             <form onSubmit={handleEnviar} >
-                <TextField
-                    value={(formReducer.forms[formId].title) ? formReducer.forms[formId].title['value'] : ""}
-                    onBlur={blur}
-                    error={(formReducer.forms[formId].title) ? formReducer.forms[formId].title['error'] : false}
-                    helperText={(formReducer.forms[formId].title) ? formReducer.forms[formId].title['errorMessage'] : ""}
-                    onChange={change}
-                    id="title"
-                    name="text"
-                    label="Title"
-                    type="text"
-                    required
-                    variant="outlined"
-                    margin="normal"
-                    fullWidth
-                    autoComplete="off"
-                />
 
-                <TextField
-                    value={(formReducer.forms[formId].body) ? formReducer.forms[formId].body['value'] : ""}
-                    onBlur={blur}
-                    error={(formReducer.forms[formId].body) ? formReducer.forms[formId].body['error'] : false}
-                    helperText={(formReducer.forms[formId].body) ? formReducer.forms[formId].body['errorMessage'] : ""}
-                    onChange={change}
-                    id="body"
-                    name="body"
-                    label="Body"
-                    type="text"
-                    required
-                    variant="outlined"
-                    margin="normal"
-                    fullWidth
-                    multiline={true}
-                    autoComplete="off"
-                />
+                {formFields.map((field, index) => (
+                    <FormInput
+                        key={index}
+                        formId={formId}
+                        field={field}
+                        fieldProps={formFieldsOptions[index]}
+                    />
+                ))}
 
                 <Button type="submit" variant="contained" color="primary" style={{ marginTop: "16px" }} >
                     Edit
