@@ -15,6 +15,7 @@ import { changeField, resetForms, validateField } from '../../../store/Form/Form
 import BlogContext from '../../../contexts/BlogContext';
 
 import { Button, Container, TextField, Typography } from '@material-ui/core';
+import useForm from '../../../hooks/useForm';
 
 const formId = "createComment";
 const formFields = ["body"];
@@ -25,6 +26,8 @@ function EditComment() {
     const { postId, commentId } = useParams();
     const formReducer = useSelector(form);
     const post = useSelector(singlePost);
+    
+    const [verifyNoErrors, handleOnChange, handleBlur] = useForm();
 
     const formHelper = useContext(BlogContext).formHelper;
 
@@ -55,7 +58,7 @@ function EditComment() {
 
     function handleEnviar(event) {
         event.preventDefault();
-        if (verifyNoErrors()) {
+        if (errors()) {
             const comment = {}
             formFields.map(field => comment[field] = formReducer.forms[formId][field]['value']);
             sendAndReset(comment);
@@ -76,37 +79,16 @@ function EditComment() {
         }, 200);
     }
 
-    function verifyNoErrors() {
-        let isGood = true;
-        let counter = 0;
-        for (let field in formReducer.forms[formId]) {
-            isGood = isGood && !formReducer.forms[formId][field]['error'];
-            counter++;
-        }
-        isGood = isGood && (formFields.length === counter);
-        return isGood;
+    function errors() {
+        return verifyNoErrors(formReducer, formId, formFields);
     }
 
-    function handleOnChange(event) {
-        const info = {
-            form: formId,
-            id: event.target.id,
-            value: event.target.value,
-            error: false
-        }
-        dispatch(changeField(info));
+    function change(event) {
+        handleOnChange(event, formId, dispatch, changeField);
     }
 
-    function handleBlur(event) {
-        const fieldValidate = formHelper.validate(event.target.value, event.target.name);
-        const info = {
-            form: formId,
-            id: event.target.id,
-            value: event.target.value,
-            error: fieldValidate.error,
-            errorMessages: fieldValidate.messages
-        }
-        dispatch(validateField(info));
+    function blur(event) {
+        handleBlur(event, formId, formHelper, dispatch, validateField);
     }
 
     return (
@@ -116,10 +98,10 @@ function EditComment() {
 
                 <TextField
                     value={(formReducer.forms[formId].body) ? formReducer.forms[formId].body['value'] : ""}
-                    onBlur={handleBlur}
+                    onBlur={blur}
                     error={(formReducer.forms[formId].body) ? formReducer.forms[formId].body['error'] : false}
                     helperText={(formReducer.forms[formId].body) ? formReducer.forms[formId].body['errorMessage'] : ""}
-                    onChange={handleOnChange}
+                    onChange={change}
                     id="body"
                     name="text"
                     label="Comment"

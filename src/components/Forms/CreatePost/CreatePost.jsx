@@ -12,6 +12,7 @@ import BlogContext from '../../../contexts/BlogContext';
 
 import { TextField, Button, Container, InputLabel, Select, FormControl, Typography } from "@material-ui/core";
 import { newMessage } from '../../../store/Alert/Alert.actions';
+import useForm from '../../../hooks/useForm';
 
 const formId = "createPost";
 const formFields = ["title", "body", "author", "category"];
@@ -21,6 +22,8 @@ function CreatePost() {
     const dispatch = useDispatch();
     const formReducer = useSelector(form);
     const categoriesReducer = useSelector(categories);
+    
+    const [verifyNoErrors, handleOnChange, handleBlur] = useForm();
 
     const formHelper = useContext(BlogContext).formHelper;
 
@@ -30,7 +33,7 @@ function CreatePost() {
 
     function handleEnviar(event) {
         event.preventDefault();
-        if (verifyNoErrors()) {
+        if (errors()) {
             const randomId = formHelper.createRandomId();
             const post = {
                 id: randomId,
@@ -54,37 +57,16 @@ function CreatePost() {
         }, 200);
     }
 
-    function verifyNoErrors() {
-        let isGood = true;
-        let counter = 0;
-        for (let field in formReducer.forms[formId]) {
-            isGood = isGood && !formReducer.forms[formId][field]['error'];
-            counter++;
-        }
-        isGood = isGood && (formFields.length === counter);
-        return isGood;
+    function errors() {
+        return verifyNoErrors(formReducer, formId, formFields);
     }
 
-    function handleOnChange(event) {
-        const info = {
-            form: formId,
-            id: event.target.id,
-            value: event.target.value,
-            error: false
-        }
-        dispatch(changeField(info));
+    function change(event) {
+        handleOnChange(event, formId, dispatch, changeField);
     }
 
-    function handleBlur(event) {
-        const fieldValidate = formHelper.validate(event.target.value, event.target.name);
-        const info = {
-            form: formId,
-            id: event.target.id,
-            value: event.target.value,
-            error: fieldValidate.error,
-            errorMessages: fieldValidate.messages
-        }
-        dispatch(validateField(info));
+    function blur(event) {
+        handleBlur(event, formId, formHelper, dispatch, validateField);
     }
 
     return (
@@ -93,10 +75,10 @@ function CreatePost() {
             <form onSubmit={handleEnviar} >
                 <TextField
                     value={(formReducer.forms[formId].title) ? formReducer.forms[formId].title['value'] : ""}
-                    onBlur={handleBlur}
+                    onBlur={blur}
                     error={(formReducer.forms[formId].title) ? formReducer.forms[formId].title['error'] : false}
                     helperText={(formReducer.forms[formId].title) ? formReducer.forms[formId].title['errorMessage'] : ""}
-                    onChange={handleOnChange}
+                    onChange={change}
                     id="title"
                     name="text"
                     label="Title"
@@ -110,10 +92,10 @@ function CreatePost() {
 
                 <TextField
                     value={(formReducer.forms[formId].author) ? formReducer.forms[formId].author['value'] : ""}
-                    onBlur={handleBlur}
+                    onBlur={blur}
                     error={(formReducer.forms[formId].author) ? formReducer.forms[formId].author['error'] : false}
                     helperText={(formReducer.forms[formId].author) ? formReducer.forms[formId].author['errorMessage'] : ""}
-                    onChange={handleOnChange}
+                    onChange={change}
                     id="author"
                     name="text"
                     label="Author"
@@ -127,10 +109,10 @@ function CreatePost() {
 
                 <TextField
                     value={(formReducer.forms[formId].body) ? formReducer.forms[formId].body['value'] : ""}
-                    onBlur={handleBlur}
+                    onBlur={blur}
                     error={(formReducer.forms[formId].body) ? formReducer.forms[formId].body['error'] : false}
                     helperText={(formReducer.forms[formId].body) ? formReducer.forms[formId].body['errorMessage'] : ""}
-                    onChange={handleOnChange}
+                    onChange={change}
                     id="body"
                     name="body"
                     label="Body"
@@ -148,7 +130,7 @@ function CreatePost() {
                     <Select
                         native
                         value={(formReducer.forms[formId].category) ? formReducer.forms[formId].category['value'] : ""}
-                        onChange={handleOnChange}
+                        onChange={change}
                         label="Category"
                         required
                         inputProps={{

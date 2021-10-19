@@ -12,6 +12,7 @@ import { newMessage } from '../../../store/Alert/Alert.actions';
 import BlogContext from '../../../contexts/BlogContext';
 
 import { TextField, Button, Container, Typography } from "@material-ui/core";
+import useForm from '../../../hooks/useForm';
 
 const formId = "createCategory";
 const formFields = ["name"];
@@ -21,6 +22,8 @@ function CreateCategory() {
     const dispatch = useDispatch();
     const formReducer = useSelector(form);
 
+    const [verifyNoErrors, handleOnChange, handleBlur] = useForm();
+
     const formHelper = useContext(BlogContext).formHelper;
 
     useEffect(() => {
@@ -29,7 +32,7 @@ function CreateCategory() {
 
     function handleEnviar(event) {
         event.preventDefault();
-        if (verifyNoErrors()) {
+        if (errors()) {
             const category = {
                 path: formHelper.createPath(formReducer.forms[formId]['name']['value'])
             }
@@ -51,37 +54,16 @@ function CreateCategory() {
         }, 200);
     }
 
-    function verifyNoErrors() {
-        let isGood = true;
-        let counter = 0;
-        for (let field in formReducer.forms[formId]) {
-            isGood = isGood && !formReducer.forms[formId][field]['error'];
-            counter++;
-        }
-        isGood = isGood && (formFields.length === counter);
-        return isGood;
+    function errors() {
+        return verifyNoErrors(formReducer, formId, formFields);
     }
 
-    function handleOnChange(event) {
-        const info = {
-            form: formId,
-            id: event.target.id,
-            value: event.target.value,
-            error: false
-        }
-        dispatch(changeField(info));
+    function change(event) {
+        handleOnChange(event, formId, dispatch, changeField);
     }
 
-    function handleBlur(event) {
-        const fieldValidate = formHelper.validate(event.target.value, event.target.name);
-        const info = {
-            form: formId,
-            id: event.target.id,
-            value: event.target.value,
-            error: fieldValidate.error,
-            errorMessages: fieldValidate.messages
-        }
-        dispatch(validateField(info));
+    function blur(event) {
+        handleBlur(event, formId, formHelper, dispatch, validateField);
     }
 
     return (
@@ -90,10 +72,10 @@ function CreateCategory() {
             <form onSubmit={handleEnviar} >
                 <TextField
                     value={(formReducer.forms[formId].name) ? formReducer.forms[formId].name['value'] : ""}
-                    onBlur={handleBlur}
+                    onBlur={blur}
                     error={(formReducer.forms[formId].name) ? formReducer.forms[formId].name['error'] : false}
                     helperText={(formReducer.forms[formId].name) ? formReducer.forms[formId].name['errorMessage'] : ""}
-                    onChange={handleOnChange}
+                    onChange={change}
                     id="name"
                     name="text"
                     label="Category"
