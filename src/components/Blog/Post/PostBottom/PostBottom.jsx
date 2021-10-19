@@ -6,7 +6,7 @@ import { removePost } from '../../../../api/blog';
 
 import PostContext from '../../../../contexts/PostContext';
 
-import { fetchPosts } from '../../../../store/Posts/Posts.actions';
+import { refreshPosts } from '../../../../store/Posts/Posts.actions';
 import { newMessage } from '../../../../store/Alert/Alert.actions';
 
 import { Button, makeStyles, Typography, IconButton } from '@material-ui/core';
@@ -70,8 +70,9 @@ function PostBottom({ isSmall = true }) {
             type: "success"
         }
         dispatch(newMessage(alert));
+        history.push("/");
         setTimeout(() => {
-            dispatch(fetchPosts);
+            dispatch(refreshPosts);
         }, 200);
     }
 

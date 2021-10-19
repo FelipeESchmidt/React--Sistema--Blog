@@ -56,7 +56,8 @@ function CreatePost() {
             const randomId = formHelper.createRandomId();
             const post = {
                 id: randomId,
-                timestamp: Date.now()
+                timestamp: Date.now(),
+                category: formReducer.forms[formId].category['value']
             }
             formFields.map(field => post[field] = formReducer.forms[formId][field]['value']);
             sendAndReset(post);

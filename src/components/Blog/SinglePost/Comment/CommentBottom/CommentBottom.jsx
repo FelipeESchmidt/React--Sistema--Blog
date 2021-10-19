@@ -8,8 +8,8 @@ import { Edit as EditIcon, Delete as DeleteIcon } from '@material-ui/icons';
 import CommentContext from '../../../../../contexts/CommentContext';
 import { removeComment } from '../../../../../api/blog';
 import { useDispatch } from 'react-redux';
-import { fetchPosts } from '../../../../../store/Posts/Posts.actions';
-import { fetchPost } from '../../../../../store/SinglePost/SinglePost.actions';
+import { refreshPosts } from '../../../../../store/Posts/Posts.actions';
+import { refreshPost } from '../../../../../store/SinglePost/SinglePost.actions';
 import { newMessage } from '../../../../../store/Alert/Alert.actions';
 
 const useStyles = makeStyles((theme) => ({
@@ -48,8 +48,8 @@ function CommentBottom() {
         }
         dispatch(newMessage(alert));
         setTimeout(() => {
-            dispatch(fetchPosts);
-            dispatch(fetchPost);
+            dispatch(refreshPosts);
+            dispatch(refreshPost);
         }, 200);
     }
 
