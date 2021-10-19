@@ -14,7 +14,7 @@ import BlogContext from '../../../contexts/BlogContext';
 import { TextField, Button, Container, Typography } from "@material-ui/core";
 
 const formId = "createCategory";
-const formFields = ["category"];
+const formFields = ["name"];
 
 function CreateCategory() {
 
@@ -31,7 +31,7 @@ function CreateCategory() {
         event.preventDefault();
         if (verifyNoErrors()) {
             const category = {
-                path: formHelper.createPath(formReducer.forms[formId]['category']['value'])
+                path: formHelper.createPath(formReducer.forms[formId]['name']['value'])
             }
             formFields.map(field => category[field] = formReducer.forms[formId][field]['value']);
             sendAndReset(category);
@@ -39,18 +39,16 @@ function CreateCategory() {
     }
 
     function sendAndReset(category) {
-        if (false) { /* Fazer o servidor aceitar nova categoria */
-            createCategory(category);
-            setTimeout(() => {
-                dispatch(fetchCategories);
-            }, 200);
-        }
+        createCategory(category);
+        dispatch(resetForms());
         const alert = {
-            message: `Category '${category.category}' sucessfuly created!`,
+            message: `Category '${category.name}' sucessfuly created!`,
             type: "success"
         }
         dispatch(newMessage(alert));
-        dispatch(resetForms());
+        setTimeout(() => {
+            dispatch(fetchCategories);
+        }, 200);
     }
 
     function verifyNoErrors() {
@@ -91,12 +89,12 @@ function CreateCategory() {
             <Typography variant="h4" style={{ margin: "80px 0 20px 0" }}>Criate new category</Typography>
             <form onSubmit={handleEnviar} >
                 <TextField
-                    value={(formReducer.forms[formId].category) ? formReducer.forms[formId].category['value'] : ""}
+                    value={(formReducer.forms[formId].name) ? formReducer.forms[formId].name['value'] : ""}
                     onBlur={handleBlur}
-                    error={(formReducer.forms[formId].category) ? formReducer.forms[formId].category['error'] : false}
-                    helperText={(formReducer.forms[formId].category) ? formReducer.forms[formId].category['errorMessage'] : ""}
+                    error={(formReducer.forms[formId].name) ? formReducer.forms[formId].name['error'] : false}
+                    helperText={(formReducer.forms[formId].name) ? formReducer.forms[formId].name['errorMessage'] : ""}
                     onChange={handleOnChange}
-                    id="category"
+                    id="name"
                     name="text"
                     label="Category"
                     type="text"

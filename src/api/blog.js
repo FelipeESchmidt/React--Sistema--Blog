@@ -1,4 +1,4 @@
-const api = "https://compasso-blog-api.herokuapp.com";
+const api = "http://localhost:3001";
 
 window.token = localStorage.token;
 if (!window.token) {
