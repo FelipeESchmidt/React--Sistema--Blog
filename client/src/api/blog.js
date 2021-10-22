@@ -1,4 +1,4 @@
-const api = "http://localhost:3001";
+const api = "https://my-fs-backend-blog.herokuapp.com";
 
 window.token = localStorage.token;
 if (!window.token) {
